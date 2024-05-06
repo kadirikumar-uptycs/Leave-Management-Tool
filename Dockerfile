@@ -10,6 +10,6 @@ COPY . .
 
 RUN npm install -g serve
 
-EXPOSE 17293
+EXPOSE 172911
 
 CMD ["serve", "-s", "build", "-l", "172911"]
