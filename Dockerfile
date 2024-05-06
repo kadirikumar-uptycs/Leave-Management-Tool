@@ -4,12 +4,12 @@ WORKDIR /frontend-app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --force
 
 COPY . .
 
 RUN npm install -g serve
 
-EXPOSE 172911
+EXPOSE 17290
 
-CMD ["serve", "-s", "build", "-l", "172911"]
+CMD ["serve", "-s", "build", "-l", "17290"]
