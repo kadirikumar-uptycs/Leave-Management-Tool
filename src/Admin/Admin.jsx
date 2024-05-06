@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import VerticalTabs from './VerticalTabs';
 const Admin = () => {
+    useEffect(() => {
+        document.title = 'Admin';
+    }, []);
     return (
         <div>
-            {/* Admin View (To Be Implemented) */}
             <VerticalTabs />
         </div>
     );

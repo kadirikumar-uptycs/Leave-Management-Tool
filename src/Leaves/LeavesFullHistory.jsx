@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const LeavesFullHistory = () => {
+    useEffect(() => {
+        document.title = 'Leave History';
+    }, []);
     return (
         <div>
             Leave History (To be Implemented)

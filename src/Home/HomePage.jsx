@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import ProgressRing from './ProgressRing';
 import LeaveHistory from './LeaveHistory';
@@ -10,6 +10,9 @@ const HomePage = () => {
     let [showModal, setShowModal] = useState(false);
     let handleOpen = () => setShowModal(true);
     let handleClose = () => setShowModal(false);
+    useEffect(() => {
+        document.title = 'Home';
+    }, []);
     return (
         <>
             <div className='request-leave'>

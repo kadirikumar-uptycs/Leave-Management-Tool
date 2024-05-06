@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 const LoginPage = () => {
+    useEffect(() => {
+        document.title = 'Login';
+    }, []);
     return (
         <div>
             Login Page
