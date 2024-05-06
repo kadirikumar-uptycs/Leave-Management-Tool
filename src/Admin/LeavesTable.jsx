@@ -4,7 +4,6 @@ import Box from '@mui/joy/Box';
 import Table from '@mui/joy/Table';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
-import Checkbox from '@mui/joy/Checkbox';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
 import IconButton from '@mui/joy/IconButton';
@@ -12,7 +11,6 @@ import Link from '@mui/joy/Link';
 import Tooltip from '@mui/joy/Tooltip';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -96,7 +94,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { order, orderBy, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -105,19 +103,6 @@ function EnhancedTableHead(props) {
   return (
     <thead>
       <tr>
-        <th>
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            slotProps={{
-              input: {
-                'aria-label': 'select all desserts',
-              },
-            }}
-            sx={{ verticalAlign: 'sub' }}
-          />
-        </th>
         {headCells.map((headCell) => {
           const active = orderBy === headCell.id;
           return (
@@ -170,16 +155,14 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, variant } = props;
+  const { variant } = props;
 
   return (
     <Box
@@ -189,55 +172,35 @@ function EnhancedTableToolbar(props) {
         py: 1,
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: 'background.level1',
-        }),
         borderTopLeftRadius: 'var(--unstable_actionRadius)',
         borderTopRightRadius: 'var(--unstable_actionRadius)',
       }}
     >
-      {numSelected > 0 ? (
-        <Typography sx={{ flex: '1 1 100%' }} component="div">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          level="body-lg"
-          sx={{ flex: '1 1 100%', color: variant === 'rejection' ? '#f05f56' : '#4bba7b' }}
-          id="tableTitle"
-          component="div"
-        >
-          {variant === 'rejection' ? 'Rejected' : 'Approved'} Leave Applications
+      <Typography
+        level="body-lg"
+        sx={{ flex: '1 1 100%', color: variant === 'rejection' ? '#f05f56' : '#4bba7b' }}
+        id="tableTitle"
+        component="div"
+      >
+        {variant === 'rejection' ? 'Rejected' : 'Approved'} Leave Applications
 
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton size="sm" color="danger" variant="solid">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton size="sm" variant="outlined" color="neutral">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      </Typography>
+      <Tooltip title="Filter list">
+        <IconButton size="sm" variant="outlined" color="neutral">
+          <FilterListIcon />
+        </IconButton>
+      </Tooltip>
     </Box>
   );
 }
 
 EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
   variant: PropTypes.string
 };
 
 export default function TableSortAndSelection({ rows, variant }) {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
+  const [orderBy, setOrderBy] = React.useState('name');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -245,35 +208,6 @@ export default function TableSortAndSelection({ rows, variant }) {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
   };
 
   const handleChangePage = (newPage) => {
@@ -294,8 +228,6 @@ export default function TableSortAndSelection({ rows, variant }) {
       : Math.min(rows.length, (page + 1) * rowsPerPage);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -305,7 +237,7 @@ export default function TableSortAndSelection({ rows, variant }) {
       variant="outlined"
       sx={{ width: '100%', boxShadow: 'sm', borderRadius: 'sm' }}
     >
-      <EnhancedTableToolbar numSelected={selected.length} variant={variant} />
+      <EnhancedTableToolbar variant={variant} />
       <Table
         aria-labelledby="tableTitle"
         hoverRow
@@ -313,20 +245,18 @@ export default function TableSortAndSelection({ rows, variant }) {
           '--TableCell-headBackground': 'transparent',
           '--TableCell-selectedBackground': (theme) =>
             theme.vars.palette.success.softBg,
-          '& thead th:nth-child(1)': {
+          '& thead th::nth-of-type(1)': {
             width: '40px',
           },
-          '& thead th:nth-child(2)': {
-            width: '30%',
+          '& thead th::nth-of-type(2)': {
+            width: '30px',
           },
-          '& tr > *:nth-child(n+3)': { textAlign: 'right' },
+          '& tr > *::nth-of-type(n+3)': { textAlign: 'right' },
         }}
       >
         <EnhancedTableHead
-          numSelected={selected.length}
           order={order}
           orderBy={orderBy}
-          onSelectAllClick={handleSelectAllClick}
           onRequestSort={handleRequestSort}
           rowCount={rows.length}
         />
@@ -334,39 +264,13 @@ export default function TableSortAndSelection({ rows, variant }) {
           {stableSort(rows, getComparator(order, orderBy))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row, index) => {
-              const isItemSelected = isSelected(row.name);
-              const labelId = `enhanced-table-checkbox-${index}`;
 
               return (
                 <tr
-                  onClick={(event) => handleClick(event, row.name)}
-                  role="checkbox"
-                  aria-checked={isItemSelected}
                   tabIndex={-1}
-                  key={row.name}
-                  style={
-                    isItemSelected
-                      ? {
-                        '--TableCell-dataBackground':
-                          'var(--TableCell-selectedBackground)',
-                        '--TableCell-headBackground':
-                          'var(--TableCell-selectedBackground)',
-                      }
-                      : {}
-                  }
+                  key={row.name + row.from}
                 >
                   <th scope="row">
-                    <Checkbox
-                      checked={isItemSelected}
-                      slotProps={{
-                        input: {
-                          'aria-labelledby': labelId,
-                        },
-                      }}
-                      sx={{ verticalAlign: 'top' }}
-                    />
-                  </th>
-                  <th id={labelId} scope="row">
                     {row.name}
                   </th>
                   <td>{row.role}</td>
@@ -384,13 +288,13 @@ export default function TableSortAndSelection({ rows, variant }) {
                 '--TableRow-hoverBackground': 'transparent',
               }}
             >
-              <td colSpan={7} aria-hidden />
+              <td colSpan={6} aria-hidden />
             </tr>
           )}
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={7}>
+            <td colSpan={6}>
               <Box
                 sx={{
                   display: 'flex',

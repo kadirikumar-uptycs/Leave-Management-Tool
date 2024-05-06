@@ -8,7 +8,7 @@ import leonardoImage from '../assets/images/Leonardo-Dicaprio.png';
 import faahadImage from '../assets/images/Faahad-Fazil.png';
 import CaptainJackSparrowImage from '../assets/images/profile.png';
 import WhoIsOnLeave from './WhoIsOnLeave';
-import { getCurrentDate, getEndDate } from '../common/getCurrentDate';
+import { formatDate, getEndDate } from '../common/getCurrentDate';
 import TableSortAndSelection from './LeavesTable';
 import './VerticalTabs.css';
 
@@ -17,42 +17,42 @@ const rows = [
       name: 'Captain Jack Sparrow',
       role: 'Team Lead',
       type: 'Sick',
-      from: getCurrentDate(getEndDate(Date.now(), 50)),
-      to: getCurrentDate(getEndDate(Date.now(), 47)),
+      from: formatDate(getEndDate(Date.now(), -50)),
+      to: formatDate(getEndDate(Date.now(), -48)),
       totalDays: 3
     },
     {
-      name: 'Captain Jack Sparrow',
-      role: 'Team Lead',
-      type: 'Sick',
-      from: getCurrentDate(getEndDate(Date.now(), 50)),
-      to: getCurrentDate(getEndDate(Date.now(), 47)),
-      totalDays: 3
+      name: 'Heath Ledger',
+      role: 'Senior Security Solutions Engineer',
+      type: 'Casual',
+      from: formatDate(getEndDate(Date.now(), -31)),
+      to: formatDate(getEndDate(Date.now(), -30)),
+      totalDays: 2
     },
     {
-      name: 'Captain Jack Sparrow',
-      role: 'Team Lead',
-      type: 'Sick',
-      from: getCurrentDate(getEndDate(Date.now(), 50)),
-      to: getCurrentDate(getEndDate(Date.now(), 47)),
-      totalDays: 3
-    },
-    {
-      name: 'Captain Jack Sparrow',
-      role: 'Team Lead',
-      type: 'Sick',
-      from: getCurrentDate(getEndDate(Date.now(), 50)),
-      to: getCurrentDate(getEndDate(Date.now(), 47)),
-      totalDays: 3
-    },
-    {
-      name: 'Captain Jack Sparrow',
-      role: 'Team Lead',
-      type: 'Sick',
-      from: getCurrentDate(getEndDate(Date.now(), 50)),
-      to: getCurrentDate(getEndDate(Date.now(), 47)),
-      totalDays: 3
-    }
+        name: 'Vijay Sethupathi',
+        role: 'Team Lead',
+        type: 'Casual',
+        from: formatDate(getEndDate(Date.now(), -3)),
+        to: formatDate(getEndDate(Date.now(), -3)),
+        totalDays: 1
+      },
+      {
+        name: 'Leonardo Dicaprio',
+        role: 'Senior Security Solutions Engineer',
+        type: 'Sick',
+        from: formatDate(getEndDate(Date.now(), -10)),
+        to: formatDate(getEndDate(Date.now(), -6)),
+        totalDays: 5
+      },
+      {
+        name: 'Faahadh Fazil',
+        role: 'Security Solutions Engineer',
+        type: 'Casual',
+        from: formatDate(getEndDate(Date.now(), 1)),
+        to: formatDate(getEndDate(Date.now(), 5)),
+        totalDays: 5
+      }
   ];
 
 
