@@ -1,0 +1,164 @@
+/* Rotate Animation for Progress Ring */
+@keyframes rotate {
+  0% {
+    stroke-dasharray: 0;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 0;
+  }
+}
+
+.request-leave {
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 30px;
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 290px;
+  margin-bottom: 30px;
+}
+.row > .col {
+  height: 100%;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  border-radius: 7px;
+  background-color: #ffffff;
+}
+.row > .col-1 {
+  width: 55%;
+}
+.row > .col-2 {
+  width: 43%;
+}
+.row > .col > .heading {
+  font-family: "Poppins-Medium";
+  font-size: 18px;
+  font-weight: 700;
+  padding-left: 20px;
+  padding-top: 10px;
+  user-select: none;
+}
+.stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-top: 50px;
+}
+.stats > .stat {
+  width: 150px;
+  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.stats > .stat > .title {
+  margin-top: 10px;
+  font-family: "Poppins-Medium";
+  font-size: 18px;
+  font-weight: 100;
+  color: #798090;
+}
+
+.holidays {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 70%;
+  margin-top: 10px;
+}
+.holidays > .holiday {
+  width: 90%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eff6ff;
+  border-radius: 7px;
+  user-select: none;
+}
+.holidays > .holiday > .name {
+  font-family: "Poppins-Medium";
+  font-size: 17px;
+  font-weight: 400;
+  margin-left: 20px;
+  color: #35315b;
+}
+.holidays > .holiday > .date {
+  font-family: "Poppins-Regular";
+  font-weight: 500;
+  font-size: 15px;
+  color: #606674;
+  margin-right: 20px;
+}
+.holidays-link,
+.applications-link {
+  height: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.holidays-link > a,
+.applications-link > a {
+  margin-right: 30px;
+  color: #1f1851;
+  font-family: "Poppins-SemiBold";
+  font-weight: 500;
+  font-size: 12px;
+  user-select: all;
+}
+.leave-history {
+  width: 100%;
+  height: 73%;
+  user-select: none;
+}
+.applications-link > a {
+  margin-right: 20px;
+}
+.Attendance-performance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  user-select: none;
+}
+.Attendance-performance .attendance {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+.Attendance-performance .attendance .help {
+  position: absolute;
+  right: 50px;
+  top: 10px;
+  cursor: pointer;
+  color: #0a3664;
+}
+.Attendance-performance .description {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+.Attendance-performance .description .status,
+.Attendance-performance .description .comment {
+  font-family: "Poppins-SemiBold";
+  font-size: 13px;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #a0a9b2;
+}
+.Attendance-performance .description .month {
+  font-family: "Poppins-ExtraBold";
+  font-size: 21px;
+  font-weight: 500;
+  color: #454d54;
+}

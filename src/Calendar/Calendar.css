@@ -1,0 +1,70 @@
+/* scrollbar */
+*::-webkit-scrollbar {
+  width: 9px;
+}
+
+/* Scrollbar Track */
+*::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+/* Scrollbar Handle */
+*::-webkit-scrollbar-thumb {
+  background: #0c0048;
+  cursor: pointer;
+  border-radius: 100px;
+}
+
+/* Highlight the Holiday cell */
+.fc-daygrid-day-frame:has(.holiday-event){
+  background-color: #afdefe;
+}
+
+/* Center the Event Name */
+.fc-direction-ltr .fc-daygrid-event.fc-event-start{
+  margin-left: 0;
+}
+
+/* Center the Day value in Daygrid cell */
+.fc-daygrid-day-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.fc-daygrid-event-harness {
+  width: 170px;
+}
+.fc-event-main {
+  display: flex;
+  justify-content: center;
+}
+.fc .fc-daygrid-day.fc-day-today{
+  background-color: gold;
+}
+
+.holiday-event {
+  font-family: "Poppins-Regular";
+  font-weight: 600;
+  overflow: hidden;
+  color: rosybrown;
+  margin: 0;
+}
+.holiday-event span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.small {
+  font-size: 9px;
+  position: relative;
+  top: 13px;
+  width: 50px;
+}
+.large {
+  font-size: 17px;
+  position: relative;
+  top: 5px;
+  padding: 5px;
+  margin-bottom: 9px;
+  border: 0;
+}

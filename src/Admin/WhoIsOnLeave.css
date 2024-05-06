@@ -1,0 +1,90 @@
+.on-leave-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  height: 500px;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.05);
+  border-radius: 7px;
+}
+.on-leave-list .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 87px;
+  width: 100%;
+  color: #4a4d53;
+  font-family: "Poppins-SemiBold";
+  font-size: 19px;
+  font-weight: 900;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+.on-leave-list .header > span {
+  margin-left: 10px;
+}
+
+.on-leave-list .list {
+  overflow: scroll;
+  width: 100%;
+}
+
+/* scrollbar */
+.list::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Scrollbar Track */
+.list::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Scrollbar Handle */
+.list::-webkit-scrollbar-thumb {
+  background: #dbdcdc;
+  cursor: pointer;
+  border-radius: 100px;
+}
+.on-leave-list .list .group{
+    display: flex;
+    align-items: flex-start;
+    margin: 10px 15px 10px 15px;
+}
+.on-leave-list .list .group .label{
+    color: #c1c1c1;
+    font-family: 'Poppins-Regular';
+    font-size: 11px;
+}
+.on-leave-list .list .group .profiles{
+    display: flex;
+    flex-direction: column;
+
+}
+.on-leave-list .list .group .profiles .profile{
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.list .profiles .profile .image {
+  width: 40px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.list .profiles .profile .userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  flex-grow: 1;
+}
+.list .profiles .profile .userInfo .name {
+  font-family: "Poppins-SemiBold";
+  font-weight: 300;
+  font-size: 15px;
+  color: #65676a;
+}
+.list .profiles .profile .userInfo .title {
+  color: #c6d1dd;
+  font-size: 11px;
+  font-family: "Poppins-Medium";
+}

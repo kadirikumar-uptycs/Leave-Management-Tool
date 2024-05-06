@@ -1,0 +1,82 @@
+.Heading{
+    font-family: 'Poppins-SemiBold';
+    font-weight: 700;
+    font-size: 19px;
+    color: #0c0048;
+    text-align: center;
+    margin-bottom: 27px;
+}
+.body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.body .col{
+    width: 100%;
+    padding: 5px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin: 10px 0;
+}
+.group{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+.group .title{
+    margin-bottom: 3px;
+    font-size: 11px;
+    color: #959cab;
+    font-family: 'Poppins-Regular';
+}
+.group .input{
+    color: #333e5d;
+    font-size: 14px;
+    font-family: 'Poppins-SemiBold';
+    font-weight: 300;
+}
+.col-1 .group:nth-child(2) .input strong{
+    color: #222bcc;
+    font-family: 'Poppins-ExtraBold';
+    font-weight: 300;
+}
+/* Adjust the width of DatePicker TextInput */
+.MuiInputBase-input.MuiOutlinedInput-input.MuiInputBase-inputSizeSmall.MuiInputBase-inputAdornedEnd {
+    width: 110px;
+    height: 24px;
+    margin: 0;
+    font-family: 'Poppins-SemiBold';
+    font-family: 300;
+    color: #333e5d;
+    font-size: 14px;
+  }
+
+  /*  */
+  .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+    justify-content: center !important;
+    padding-right: 0 !important;
+  }
+
+/* Remove top margin for datepicker */
+.css-1rwfxpp-MuiStack-root{
+    padding-top: 0 !important;
+}
+
+/* Hide overflown content if not active */
+.MuiTextarea-root.MuiTextarea-variantOutlined.MuiTextarea-colorPrimary.MuiTextarea-sizeLg.css-6od14c-JoyTextarea-root:not(.Mui-focused) textarea{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    resize: none;
+}
+
+/* Scroll Bar size for TextArea */
+.MuiTextarea-root.MuiTextarea-variantOutlined.MuiTextarea-colorPrimary.MuiTextarea-sizeLg.css-6od14c-JoyTextarea-root.Mui-focused textarea::-webkit-scrollbar {
+    width: 5px;
+  }
+
+.col-6{
+    width: 93.3% !important;
+}

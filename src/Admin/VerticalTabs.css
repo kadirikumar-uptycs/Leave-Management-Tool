@@ -1,0 +1,29 @@
+.first-tab {
+  display: flex;
+  justify-content: space-between;
+}
+.pending-requests {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 20px;
+  height: 540px;
+  padding-right: 20px;
+  margin: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+/* scrollbar */
+.pending-requests::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Scrollbar Track */
+.pending-requests::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Scrollbar Handle */
+.pending-requests::-webkit-scrollbar-thumb {
+  background: #dbdcdc;
+  cursor: pointer;
+  border-radius: 100px;
+}
