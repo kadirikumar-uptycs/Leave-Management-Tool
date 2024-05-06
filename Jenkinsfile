@@ -44,7 +44,7 @@ pipeline {
 
     stage('List Images') {
       steps {
-        sh 'sudo docker images | grep cxtools'
+        sh 'sudo docker images | grep cx-tools'
       }
     }
 
