@@ -65,16 +65,15 @@ const LeaveRequestModal = ({ open, onClose }) => {
                                 </Select>
                             </FormControl>
                         </div>
-
                         <div className="group">
                             <span className="title">Leaves Left</span>
-                            <span className='input'>You have <strong>8.5 Leaves</strong> in your account</span>
+                            <span className='input'>You have used <strong>8.5 Leaves</strong> upto this point</span>
                         </div>
                     </div>
                     <div className="col col-2 group">
                         <span className="title">Leave Type</span>
                         <div className="input">
-                            <RadioGroup type="leave-type" first="Sick Leave" second="Paid Leave" last="Other Type Leave" />
+                            <RadioGroup type="leave-type" first="Sick Leave" second="Paid Leave" />
                         </div>
                     </div>
                     <div className="col col-3">
