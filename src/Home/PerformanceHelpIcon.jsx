@@ -19,8 +19,8 @@ export default function PerformanceHelpIcon() {
 
     return (
         <div>
-            <div className="help" aria-describedby={id} variant="contained" onClick={handleClick}>
-                <ErrorRoundedIcon />
+            <div className="help" aria-describedby={id} variant="contained" onClick={handleClick} >
+                <ErrorRoundedIcon className='icon'/>
             </div>
             <Popover
                 id={id}
@@ -33,9 +33,9 @@ export default function PerformanceHelpIcon() {
                 }}
             >
                 <Typography sx={{ p: 2 }}>Performance mesures as follows:</Typography>
-                <Typography sx={{ p: 2 }}>✨ 100% - 80% : Good ✅👏</Typography>
-                <Typography sx={{ p: 2 }}>✨ 80% - 60% : Average ⚠️🥱</Typography>
-                <Typography sx={{ p: 2 }}>✨ {"< 60%"} : Bad ❌😤</Typography>
+                <Typography sx={{ p: 2 }}>✨ 100% - 90% : Good ✅👏</Typography>
+                <Typography sx={{ p: 2 }}>✨ 90% - 80% : Average ⚠️🥱</Typography>
+                <Typography sx={{ p: 2 }}>✨ {"< 80%"} : Bad ❌😤</Typography>
             </Popover>
         </div>
     );
