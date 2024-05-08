@@ -6,10 +6,12 @@ import {
   RouterProvider
 } from "react-router-dom";
 import ErrorBoundary from './common/ErrorBoundary';
+import PageNotFound from './common/PageNotFound';
 import LoginPage from './Login/LoginPage';
 import HomePage from './Home/HomePage';
 import Calendar from './Calendar/Calendar';
 import LeavesFullHistory from './Leaves/LeavesFullHistory';
+import Users from './Users/users';
 import Admin from './Admin/Admin';
 import Layout from './Layout';
 
@@ -35,6 +37,16 @@ const router = createBrowserRouter(
       <Route path="admin" element={
         <ErrorBoundary>
           <Admin />
+        </ErrorBoundary>
+      } />
+      <Route path="users" element={
+        <ErrorBoundary>
+          <Users />
+        </ErrorBoundary>
+      } />
+      <Route path='*' element={
+        <ErrorBoundary>
+          <PageNotFound />
         </ErrorBoundary>
       } />
     </Route>

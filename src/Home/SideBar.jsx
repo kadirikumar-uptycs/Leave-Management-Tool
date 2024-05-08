@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import HistoryIcon from '@mui/icons-material/History';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import Logo from '../assets/images/logo.svg';
 
@@ -19,8 +21,14 @@ const SideBar = () => {
       case '/calendar':
         setActiveItem(1);
         break;
-      case '/admin':
+      case '/leaveHistory':
         setActiveItem(2);
+        break;
+      case '/users':
+        setActiveItem(3);
+        break;
+      case '/admin':
+        setActiveItem(4);
         break;
       default:
         setActiveItem(null);
@@ -48,13 +56,25 @@ const SideBar = () => {
           </div>
           <div className="text">Leave Calendar</div>
         </Link>
-        <Link to="/admin" className={`menu-item ${activeItem === 2 ? "active" : ''}`} style={{ color: 'inherit' }}>
+        <Link to="/leaveHistory" className={`menu-item ${activeItem === 2 ? "active" : ''}`} style={{ color: 'inherit' }}>
+          <div className="icon">
+            <HistoryIcon />
+          </div>
+          <div className="text">Leave History</div>
+        </Link>
+        <Link to="/users" className={`menu-item ${activeItem === 3 ? "active" : ''}`} style={{ color: 'inherit' }}>
+          <div className="icon">
+            <PeopleAltIcon />
+          </div>
+          <div className="text">Users</div>
+        </Link>
+        <Link to="/admin" className={`menu-item ${activeItem === 4 ? "active" : ''}`} style={{ color: 'inherit' }}>
           <div className="icon">
             <AdminPanelSettingsIcon />
           </div>
           <div className="text">Admin</div>
         </Link>
-        <div className={`menu-item ${activeItem === 3 ? "active" : ''}`} style={{ color: 'inherit' }}>
+        <div className={`menu-item ${activeItem === 5 ? "active" : ''}`} style={{ color: 'inherit' }}>
           <div className="icon">
             <LogoutRoundedIcon />
           </div>
