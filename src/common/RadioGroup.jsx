@@ -8,13 +8,13 @@ const RadioGroup = ({ type, first, second, last }) => {
                 <span>{first}</span>
             </label>
             <label htmlFor={`s-option-${type}`} className="l-radio">
-                <input type="radio" id={`s-option-${type}`} name={type} tabIndex={2}/>
+                <input type="radio" id={`s-option-${type}`} name={type} tabIndex={2} />
                 <span>{second}</span>
             </label>
-            <label htmlFor={`t-option-${type}`} className="l-radio">
-                <input type="radio" id={`t-option-${type}`} name={type} tabIndex={3}/>
+            {last && <label htmlFor={`t-option-${type}`} className="l-radio">
+                <input type="radio" id={`t-option-${type}`} name={type} tabIndex={3} />
                 <span>{last}</span>
-            </label>
+            </label>}
         </div>
     );
 }
