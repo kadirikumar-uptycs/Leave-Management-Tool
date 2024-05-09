@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import ProgressRing from './ProgressRing';
 import LeaveHistory from './LeaveHistory';
 import PerformanceHelpIcon from './PerformanceHelpIcon';
 import LeaveRequestModal from './LeaveRequestModal';
-import SelfImprovementIcon from '@mui/icons-material/SelfImprovement';
-import SickIcon from '@mui/icons-material/Sick';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -32,41 +28,29 @@ const HomePage = () => {
                 >
                     Request a Leave
                 </Button>
-                <LeaveRequestModal open={showModal} onClose={handleClose} />
+                <LeaveRequestModal open={showModal} onClose={handleClose}/>
             </div>
             <div className='row'>
                 <div className="leave-balances col col-1">
                     <div className="heading">
-                        <span>Leaves Taken</span>
+                        <span>Leave Balance</span>
                     </div>
                     <div className="stats">
-                        <div className="stat">
-                            <div className="icon">
-                                <SickIcon className='mui-icon' />
-                            </div>
-                            <div className='info'>
-                                <span className="count">05</span>
-                                <span className="title">Sick Leaves</span>
-                            </div>
-                            <div className="link">
-                                <Link to="/leaveHistory?type=sick&status=approved" style={{ color: 'inherit' }}>
-                                    <OpenInNewIcon />
-                                </Link>
-                            </div>
+                        <div className="stat stat-1">
+                            <ProgressRing available={8} total={12} color="#9c82d4" showLabel={true} />
+                            <span className='title'>Causual Leave</span>
                         </div>
-                        <div className="stat">
-                            <div className="icon">
-                                <SelfImprovementIcon className='mui-icon' />
-                            </div>
-                            <div className='info'>
-                                <span className="count">23.5</span>
-                                <span className="title">Casual Leaves</span>
-                            </div>
-                            <div className="link">
-                                <Link to="/leaveHistory?type=casual&status=approved" style={{ color: 'inherit' }}>
-                                    <OpenInNewIcon />
-                                </Link>
-                            </div>
+                        <div className="stat stat-2">
+                            <ProgressRing available={10} total={12} color="#ff9a91" showLabel={true} />
+                            <span className='title'>Sick Leave</span>
+                        </div>
+                        <div className="stat stat-3">
+                            <ProgressRing available={12} total={12} color="#93f0e6" showLabel={true} />
+                            <span className='title'>Paid Leave</span>
+                        </div>
+                        <div className="stat stat-4">
+                            <ProgressRing available={5} total={10} color="#b7f467" showLabel={true} />
+                            <span className='title'>Earned Leave</span>
                         </div>
                     </div>
                 </div>
@@ -89,7 +73,7 @@ const HomePage = () => {
                         </div>
                     </div>
                     <div className='holidays-link'>
-                        <Link to="/calendar" style={{ color: 'inherit' }}>See all</Link>
+                        <a href="/calendar">See all</a>
                     </div>
                 </div>
             </div>
@@ -102,7 +86,7 @@ const HomePage = () => {
                         <LeaveHistory />
                     </div>
                     <div className="applications-link">
-                        <Link to="/leaveHistory" style={{ color: 'inherit' }}>See all</Link>
+                        <a href="/leaveHistory">See all</a>
                     </div>
                 </div>
                 <div className="Attendance-performance col col-2">

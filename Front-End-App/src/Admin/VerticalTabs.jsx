@@ -86,13 +86,13 @@ export default function VerticalTabs() {
                 }}
             >
                 <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}>
-                    Pending (3)
+                    Pending (2)
                 </Tab>
                 <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}>
                     Approved (5)
                 </Tab>
                 <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}>
-                    Rejected (4)
+                    Rejected (3)
                 </Tab>
             </TabList>
             <TabPanel value={0}>
@@ -147,7 +147,7 @@ export default function VerticalTabs() {
                 <TableSortAndSelection rows={rows} variant="success" />
             </TabPanel>
             <TabPanel value={2}>
-            <TableSortAndSelection rows={rows.slice(0, 4)} variant="rejection" />
+            <TableSortAndSelection rows={rows.slice(0, 3)} variant="rejection" />
             </TabPanel>
         </Tabs >
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
@@ -79,7 +78,7 @@ const LeaveHistory = () => {
         {
             id: 2,
             category: 'Casual Leave',
-            'from-to': '31st Mar-2nd Apr',
+            'from-to': '31st March-2nd April',
             totalDays: 3,
             status: 'Approved',
         },
@@ -92,7 +91,7 @@ const LeaveHistory = () => {
         },
         {
             id: 5,
-            category: 'Sick Leave',
+            category: 'Paid Leave',
             'from-to': '15th-19th Jan',
             totalDays: 5,
             status: 'Approved',
@@ -113,8 +112,8 @@ const LeaveHistory = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-evenly',
-                        backgroundColor: '#f4f9ff',
-                        padding: '7px 5px',
+                        backgroundColor: '#fafafa',
+                        padding: '5px',
                         width: '95%',
                         fontFamily: 'Poppins-Regular',
                     }}>
@@ -168,9 +167,9 @@ const LeaveHistory = () => {
                         >
                             {getStatusButton(application.status)}
                         </span>
-                        <Link
+                        <a
                             className="link"
-                            to='/leaveHistory'
+                            href='/leaveHistory'
                             style={{
                                 width: '5%',
                                 color: '#969ba4',
@@ -178,7 +177,7 @@ const LeaveHistory = () => {
                             }}
                         >
                             view
-                        </Link>
+                        </a>
                     </div>
                 )
             })}
