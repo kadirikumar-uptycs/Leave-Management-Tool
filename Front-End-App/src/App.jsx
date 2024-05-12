@@ -11,7 +11,7 @@ import LoginPage from './Login/LoginPage';
 import HomePage from './Home/HomePage';
 import Calendar from './Calendar/Calendar';
 import LeavesFullHistory from './Leaves/LeavesFullHistory';
-import Users from './Users/users';
+import Users from './Users/Users';
 import Admin from './Admin/Admin';
 import Layout from './Layout';
 
