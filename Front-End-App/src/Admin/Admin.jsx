@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import VerticalTabs from './VerticalTabs';
 const Admin = () => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         document.title = 'Admin';
     }, []);
     return (

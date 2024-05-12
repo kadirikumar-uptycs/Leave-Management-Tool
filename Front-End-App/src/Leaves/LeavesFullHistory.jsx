@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 
 const LeavesFullHistory = () => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         document.title = 'Leave History';
     }, []);
     return (
