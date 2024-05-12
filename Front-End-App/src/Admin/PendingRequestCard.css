@@ -24,6 +24,7 @@
   aspect-ratio: 1/1;
   border-radius: 50%;
   margin-right: 10px;
+  user-select: none;
 }
 .PendingCard .header .profile .userInfo {
   display: flex;
@@ -53,6 +54,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  user-select: none;
 }
 .from-to .from,
 .from-to .to {
