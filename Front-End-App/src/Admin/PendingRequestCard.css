@@ -47,6 +47,7 @@
   font-family: "Poppins-Regular";
   font-size: 11px;
   color: #b7b9bb;
+  user-select: none;
 }
 
 /* From and To */
@@ -131,6 +132,7 @@
   font-size: 13px;
   width: 100%;
   background-color: #fbfbfc;
+  user-select: none;
 }
 .reason .description {
   padding: 3px 10px;
@@ -167,6 +169,7 @@
   width: max-content;
   padding: 10px;
   border-radius: 7px;
+  user-select: none;
 }
 .available-leaves div:has(.warning) {
   background-color: #fffaf3;
