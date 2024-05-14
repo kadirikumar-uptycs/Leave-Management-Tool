@@ -57,7 +57,7 @@
   background-color: #f4f9ff;
   border-radius: 13px;
 }
-.stats > .stat >.icon{
+.stats > .stat > .icon {
   position: absolute;
   right: 10px;
   top: 10px;
@@ -65,14 +65,14 @@
   aspect-ratio: 1/1;
   color: #241392;
 }
-.stats > .stat > .icon > .mui-icon{
+.stats > .stat > .icon > .mui-icon {
   background-color: #ffffff;
   padding: 5px;
   font-size: 70px !important;
   width: 100%;
   border-radius: 50%;
 }
-.stats > .stat > .icon:nth-child(2) > .mui-icon{
+.stats > .stat > .icon:nth-child(2) > .mui-icon {
   font-size: 75px;
 }
 .stats > .stat > .info {
@@ -86,19 +86,19 @@
 }
 .stats > .stat > .info > .title {
   margin-top: 10px;
-  font-family: 'Poppins-Medium';
+  font-family: "Poppins-Medium";
   font-size: 18px;
   font-weight: 500;
   color: #737893;
 }
-.stats > .stat > .info > .count{
-  font-family: 'Poppins-SemiBold';
+.stats > .stat > .info > .count {
+  font-family: "Poppins-SemiBold";
   font-size: 43px;
   font-weight: 300;
   color: #343b64;
   user-select: none;
 }
-.stats > .stat > .link{
+.stats > .stat > .link {
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -201,9 +201,21 @@
   font-weight: 500;
   color: #454d54;
 }
+.help{
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Help Icon */
 .help:hover .icon {
   color: #e02966;
   transition: 0.4s all;
+}
+.help:hover {
+  background-color: #eae6e6;
+  transition: 0.7s background-color;
+  border-radius: 50%;
 }
