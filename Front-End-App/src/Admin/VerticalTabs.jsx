@@ -9,51 +9,95 @@ import faahadImage from '../assets/images/Faahad-Fazil.png';
 import CaptainJackSparrowImage from '../assets/images/profile.png';
 import WhoIsOnLeave from './WhoIsOnLeave';
 import { formatDate, getEndDate } from '../common/getCurrentDate';
-import TableSortAndSelection from './LeavesTable';
+import TableSortAndSelection from '../common/TableSortAndSelection';
 import './VerticalTabs.css';
+
+const headCells = [
+    {
+        id: 'name',
+        numeric: false,
+        disablePadding: true,
+        label: 'Employee Name',
+    },
+    {
+        id: 'role',
+        numeric: false,
+        disablePadding: false,
+        label: 'Role',
+    },
+    {
+        id: 'type',
+        numeric: false,
+        disablePadding: false,
+        label: 'Leave Type',
+    },
+    {
+        id: 'from',
+        numeric: false,
+        disablePadding: false,
+        label: 'From',
+    },
+    {
+        id: 'to',
+        numeric: false,
+        disablePadding: false,
+        label: 'To',
+    },
+    {
+        id: 'totalDays',
+        numeric: true,
+        disablePadding: false,
+        label: 'Total Days',
+    }
+];
 
 const rows = [
     {
-      name: 'Captain Jack Sparrow',
-      role: 'Team Lead',
-      type: 'Sick',
-      from: formatDate(getEndDate(Date.now(), -50)),
-      to: formatDate(getEndDate(Date.now(), -48)),
-      totalDays: 3
+        id: '1',
+        name: 'Captain Jack Sparrow',
+        role: 'Team Lead',
+        type: 'Sick',
+        from: formatDate(getEndDate(Date.now(), -50)),
+        to: formatDate(getEndDate(Date.now(), -48)),
+        totalDays: 3
     },
     {
-      name: 'Heath Ledger',
-      role: 'Senior Security Solutions Engineer',
-      type: 'Casual',
-      from: formatDate(getEndDate(Date.now(), -31)),
-      to: formatDate(getEndDate(Date.now(), -30)),
-      totalDays: 2
+        id: '2',
+        name: 'Heath Ledger',
+        role: 'Senior Security Solutions Engineer',
+        type: 'Casual',
+        from: formatDate(getEndDate(Date.now(), -31)),
+        to: formatDate(getEndDate(Date.now(), -30)),
+        totalDays: 2
     },
     {
+        id: '3',
         name: 'Vijay Sethupathi',
         role: 'Team Lead',
         type: 'Casual',
         from: formatDate(getEndDate(Date.now(), -3)),
         to: formatDate(getEndDate(Date.now(), -3)),
         totalDays: 1
-      },
-      {
+    },
+    {
+        id: '4',
         name: 'Leonardo Dicaprio',
         role: 'Senior Security Solutions Engineer',
         type: 'Sick',
         from: formatDate(getEndDate(Date.now(), -10)),
         to: formatDate(getEndDate(Date.now(), -6)),
         totalDays: 5
-      },
-      {
+    },
+    {
+        id: '5',
         name: 'Faahadh Fazil',
         role: 'Security Solutions Engineer',
         type: 'Casual',
         from: formatDate(getEndDate(Date.now(), 1)),
         to: formatDate(getEndDate(Date.now(), 5)),
         totalDays: 5
-      }
-  ];
+    }
+];
 
 
 export default function VerticalTabs() {
@@ -144,10 +188,30 @@ export default function VerticalTabs() {
                 </div>
             </TabPanel>
             <TabPanel value={1}>
-                <TableSortAndSelection rows={rows} variant="success" />
+                <TableSortAndSelection
+                    headCells={headCells}
+                    rows={rows}
+                    variant="success"
+                    toolBarParams={{
+                        title: 'Approved Leave Applications',
+                        styles: {
+                            color: '#4bba7b',
+                        }
+                    }}
+                />
             </TabPanel>
             <TabPanel value={2}>
-            <TableSortAndSelection rows={rows.slice(0, 4)} variant="rejection" />
+                <TableSortAndSelection
+                    headCells={headCells}
+                    rows={rows.slice(0, 4)}
+                    variant="rejection"
+                    toolBarParams={{
+                        title: 'Rejected Leave Applications',
+                        styles: {
+                            color: '#f05f56',
+                        }
+                    }}
+                />
             </TabPanel>
         </Tabs >
     );
