@@ -255,46 +255,27 @@ export default function TableSortAndSelection({ headCells, rows, toolBarParams }
                     headCells.map((column, col_index) => {
                       let column_Data = row[column.id];
                       let cellData = (column.type === 'object') ? column_Data.data : column_Data;
-                      if (column.disableToolTip) {
-                        return (
-                          col_index === 0 ? (
-                            <th
-                              key={row.id + '' + col_index}
-                              scope="row"
-                              style={{
-                                paddingLeft: '20px',
-                              }}
-                            >
-                              {cellData}
-                            </th>
-                          ) : (
-                            <td>
-                              {cellData}
-                            </td>
-                          )
-                        )
-                      } else {
-                        return (
-                          <Tooltip title={cellData} placement="top-start">
-                            {
-                              col_index === 0 ? (
-                                <th
-                                  key={row_index + '' + col_index}
-                                  scope="row"
-                                  style={{
-                                    paddingLeft: '20px',
-                                  }}
-                                >
-                                  {cellData}
-                                </th>) : (
-                                <td>
-                                  {cellData}
-                                </td>
-                              )
-                            }
-                          </Tooltip>
-                        )
-                      }
+                      let toolTipInfo = (column.type === 'object') ? column_Data.content : column_Data;
+                      return (
+                        <Tooltip title={toolTipInfo} placement="top-start">
+                          {
+                            col_index === 0 ? (
+                              <th
+                                key={row_index + '' + col_index}
+                                scope="row"
+                                style={{
+                                  paddingLeft: '20px',
+                                }}
+                              >
+                                {cellData}
+                              </th>) : (
+                              <td>
+                                {cellData}
+                              </td>
+                            )
+                          }
+                        </Tooltip>
+                      )
                     })
                   }
                 </tr>
