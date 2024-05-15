@@ -49,7 +49,7 @@ const HomePage = () => {
                                 <span className="title">Sick Leaves</span>
                             </div>
                             <div className="link">
-                                <Link to="/leaveHistory?type=sick&status=approved" style={{ color: 'inherit' }}>
+                                <Link to="/leaveHistory?type=Sick&status=Approved" style={{ color: 'inherit' }}>
                                     <OpenInNewIcon />
                                 </Link>
                             </div>
@@ -63,7 +63,7 @@ const HomePage = () => {
                                 <span className="title">Casual Leaves</span>
                             </div>
                             <div className="link">
-                                <Link to="/leaveHistory?type=casual&status=approved" style={{ color: 'inherit' }}>
+                                <Link to="/leaveHistory?type=Casual&status=Approved" style={{ color: 'inherit' }}>
                                     <OpenInNewIcon />
                                 </Link>
                             </div>
