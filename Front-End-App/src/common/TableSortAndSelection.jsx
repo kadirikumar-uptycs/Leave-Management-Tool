@@ -214,6 +214,7 @@ export default function TableSortAndSelection({ headCells, rows, toolBarParams }
       <Table
         aria-labelledby="tableTitle"
         hoverRow
+        stripe="odd"
         sx={{
           '--TableCell-headBackground': 'transparent',
           '--TableCell-selectedBackground': (theme) =>
