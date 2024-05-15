@@ -32,7 +32,6 @@ const headCells = [
         numeric: false,
         disablePadding: false,
         label: 'Status',
-        disableToolTip: true,
         type: "object",
     }
 ];
