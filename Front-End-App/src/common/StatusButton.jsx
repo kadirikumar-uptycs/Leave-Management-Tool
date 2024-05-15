@@ -12,6 +12,7 @@ let buttonStyle = {
     alignItems: 'center',
     justifyContent: 'space-evenly',
     borderRadius: '6px',
+    userSelect: 'none',
 }
 
 const StatusButton = ({ status }) => {
