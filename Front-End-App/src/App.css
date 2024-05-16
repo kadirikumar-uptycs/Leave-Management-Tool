@@ -32,6 +32,22 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
+@font-face {
+  font-family: "Hind-Regular";
+  src: url("./assets/fonts/Hind/Hind-Regular.ttf");
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+@font-face {
+  font-family: "Orbitron-Regular";
+  src: url("./assets/fonts/Orbitron/Orbitron-Regular.ttf");
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 
 .container {
   display: flex;
