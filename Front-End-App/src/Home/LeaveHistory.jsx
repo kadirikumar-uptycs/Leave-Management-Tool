@@ -99,7 +99,7 @@ const LeaveHistory = () => {
                                 fontWeight: '500',
                             }}
                         >
-                            {`${application.totalDays}${(application.totalDays === 1) ? 'Day' : 'Days'}`}
+                            {`${application.totalDays} ${(application.totalDays === 1) ? 'Day' : 'Days'}`}
                         </span>
                         <span
                             className='status'
