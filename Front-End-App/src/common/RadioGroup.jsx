@@ -3,7 +3,6 @@ import './RadioGroup.css';
 const RadioGroup = ({ type, first, second, last, handleChangeEvent, defaultValue }) => {
     let checkedEleRef = useRef(null);
     if (!defaultValue && checkedEleRef?.current) {
-        console.log(checkedEleRef.current);
         checkedEleRef.current.checked = false;
     }
     return (
