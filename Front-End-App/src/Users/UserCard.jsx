@@ -2,12 +2,11 @@ import React from 'react';
 import Avatar from '@mui/joy/Avatar';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
-import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Link from '@mui/joy/Link';
 import Tooltip from '@mui/joy/Tooltip';
 import LocalAirportIcon from '@mui/icons-material/LocalAirport';
+import UserMenu from './UserMenu';
 
 const UserCard = ({ ProfileImage, name, role, phone, email, shift }) => {
     return (
@@ -33,16 +32,14 @@ const UserCard = ({ ProfileImage, name, role, phone, email, shift }) => {
                     </Tooltip>
                 ) : <></>
             }
-            <IconButton
-                sx={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    padding: 0
-                }}
-            >
-                <MoreVertIcon />
-            </IconButton>
+            <div style={{
+                position: 'absolute',
+                top: 8,
+                right: 8,
+                padding: 0
+            }}>
+                <UserMenu />
+            </div>
             <Avatar
                 alt={name}
                 src={ProfileImage}
