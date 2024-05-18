@@ -1,68 +1,13 @@
 import React from 'react';
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import CheckCircleOutlineRoundedIcon from '@mui/icons-material/CheckCircleOutlineRounded';
-import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
+import {Link} from 'react-router-dom';
+import StatusButton from '../common/StatusButton';
 
-let buttonStyle = {
-    width: '100px',
-    aspectRatio: '2.7/0.7',
-    padding: '5px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    borderRadius: '6px',
-}
+
 
 function getStatusColorCode(status){
     if(status === 'Pending') return '#9a90c9'
     if(status === 'Approved') return '#2c6d58'
     return '#bd0c0c';
-}
-function getStatusButton(status) {
-    if (status === 'Pending') {
-        return (
-            <div style={{
-                color: '#9a90c9',
-                backgroundColor: '#d8d5e8',
-                ...buttonStyle,
-            }}>
-                {status}
-                <AccessTimeRoundedIcon sx={{
-                    color: '#7365b7',
-                    fontSize: '17px',
-                }} />
-            </div>
-        )
-    }
-    if (status === 'Approved') {
-        return (
-            <div style={{
-                color: '#2c6d58',
-                backgroundColor: '#c1d3cd',
-                ...buttonStyle,
-            }}>
-                {status}
-                <CheckCircleOutlineRoundedIcon sx={{
-                    color: '#0c573f',
-                    fontSize: '17px',
-                }} />
-            </div>
-        )
-    }
-    // Rejected Case
-    return (
-        <div style={{
-            color: '#bd0c0c',
-            backgroundColor: '#eabbbb',
-            ...buttonStyle,
-        }}>
-            {status}
-            <HighlightOffRoundedIcon sx={{
-                color: '#bb0303',
-                fontSize: '17px',
-            }} />
-        </div>
-    )
 }
 
 const LeaveHistory = () => {
@@ -78,7 +23,7 @@ const LeaveHistory = () => {
         {
             id: 2,
             category: 'Casual Leave',
-            'from-to': '31st March-2nd April',
+            'from-to': '31st Mar-2nd Apr',
             totalDays: 3,
             status: 'Approved',
         },
@@ -91,7 +36,7 @@ const LeaveHistory = () => {
         },
         {
             id: 5,
-            category: 'Paid Leave',
+            category: 'Sick Leave',
             'from-to': '15th-19th Jan',
             totalDays: 5,
             status: 'Approved',
@@ -112,8 +57,8 @@ const LeaveHistory = () => {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-evenly',
-                        backgroundColor: '#fafafa',
-                        padding: '5px',
+                        backgroundColor: '#f4f9ff',
+                        padding: '7px 5px',
                         width: '95%',
                         fontFamily: 'Poppins-Regular',
                     }}>
@@ -154,7 +99,7 @@ const LeaveHistory = () => {
                                 fontWeight: '500',
                             }}
                         >
-                            {`${application.totalDays}${(application.totalDays === 1) ? 'Day' : 'Days'}`}
+                            {`${application.totalDays} ${(application.totalDays === 1) ? 'Day' : 'Days'}`}
                         </span>
                         <span
                             className='status'
@@ -165,11 +110,11 @@ const LeaveHistory = () => {
                                 fontWeight: '400',
                             }}
                         >
-                            {getStatusButton(application.status)}
+                            <StatusButton status={application.status} />
                         </span>
-                        <a
+                        <Link
                             className="link"
-                            href='/leaveHistory'
+                            to='/leaveHistory'
                             style={{
                                 width: '5%',
                                 color: '#969ba4',
@@ -177,7 +122,7 @@ const LeaveHistory = () => {
                             }}
                         >
                             view
-                        </a>
+                        </Link>
                     </div>
                 )
             })}

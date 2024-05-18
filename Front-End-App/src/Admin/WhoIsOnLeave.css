@@ -52,6 +52,7 @@
     color: #c1c1c1;
     font-family: 'Poppins-Regular';
     font-size: 11px;
+    user-select: none;
 }
 .on-leave-list .list .group .profiles{
     display: flex;
@@ -69,6 +70,7 @@
   aspect-ratio: 1/1;
   border-radius: 50%;
   margin-right: 10px;
+  user-select: none;
 }
 .list .profiles .profile .userInfo {
   display: flex;

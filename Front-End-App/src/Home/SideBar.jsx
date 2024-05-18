@@ -6,6 +6,7 @@ import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import HistoryIcon from '@mui/icons-material/History';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import Logo from '../assets/images/logo.svg';
 
 const SideBar = () => {
@@ -27,8 +28,11 @@ const SideBar = () => {
       case '/users':
         setActiveItem(3);
         break;
-      case '/admin':
+      case '/analytics':
         setActiveItem(4);
+        break;
+      case '/admin':
+        setActiveItem(5);
         break;
       default:
         setActiveItem(null);
@@ -68,13 +72,19 @@ const SideBar = () => {
           </div>
           <div className="text">Users</div>
         </Link>
-        <Link to="/admin" className={`menu-item ${activeItem === 4 ? "active" : ''}`} style={{ color: 'inherit' }}>
+        <Link to="/analytics" className={`menu-item ${activeItem === 4 ? "active" : ''}`} style={{ color: 'inherit' }}>
+          <div className="icon">
+            <QueryStatsIcon />
+          </div>
+          <div className="text">Analytics</div>
+        </Link>
+        <Link to="/admin" className={`menu-item ${activeItem === 5 ? "active" : ''}`} style={{ color: 'inherit' }}>
           <div className="icon">
             <AdminPanelSettingsIcon />
           </div>
           <div className="text">Admin</div>
         </Link>
-        <div className={`menu-item ${activeItem === 5 ? "active" : ''}`} style={{ color: 'inherit' }}>
+        <div className={`menu-item ${activeItem === 6 ? "active" : ''}`} style={{ color: 'inherit' }}>
           <div className="icon">
             <LogoutRoundedIcon />
           </div>

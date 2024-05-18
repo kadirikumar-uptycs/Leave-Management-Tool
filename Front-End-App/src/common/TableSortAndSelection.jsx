@@ -23,10 +23,13 @@ function labelDisplayedRows({ from, to, count }) {
 }
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
+  let type = typeof a[orderBy];
+  let A = (type === 'object') ? (a[orderBy]['content']) : a[orderBy];
+  let B = (type === 'object') ? (b[orderBy]['content']) : b[orderBy];
+  if (B < A) {
     return -1;
   }
-  if (b[orderBy] > a[orderBy]) {
+  if (B > A) {
     return 1;
   }
   return 0;
@@ -54,56 +57,20 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-  {
-    id: 'name',
-    numeric: false,
-    disablePadding: true,
-    label: 'Employee Name',
-  },
-  {
-    id: 'role',
-    numeric: false,
-    disablePadding: false,
-    label: 'Role',
-  },
-  {
-    id: 'type',
-    numeric: false,
-    disablePadding: false,
-    label: 'Leave Type',
-  },
-  {
-    id: 'from',
-    numeric: false,
-    disablePadding: false,
-    label: 'From',
-  },
-  {
-    id: 'to',
-    numeric: false,
-    disablePadding: false,
-    label: 'To',
-  },
-  {
-    id: 'totalDays',
-    numeric: true,
-    disablePadding: false,
-    label: 'Total Days',
-  }
-];
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } =
+  const { order, orderBy, onRequestSort, headCells } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
+  let totalColumns = headCells ? headCells.length : 1;
+
   return (
     <thead>
       <tr>
-        {headCells.map((headCell) => {
+        {headCells.map((headCell, index) => {
           const active = orderBy === headCell.id;
           return (
             <th
@@ -111,6 +78,10 @@ function EnhancedTableHead(props) {
               aria-sort={
                 active ? { asc: 'ascending', desc: 'descending' }[order] : undefined
               }
+              style={{
+                width: `${100 / totalColumns}%`,
+                paddingLeft: (!index) ? '20px' : '10px'
+              }}
             >
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <Link
@@ -120,16 +91,7 @@ function EnhancedTableHead(props) {
                 component="button"
                 onClick={createSortHandler(headCell.id)}
                 fontWeight="lg"
-                startDecorator={
-                  headCell.numeric ? (
-                    <ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />
-                  ) : null
-                }
-                endDecorator={
-                  !headCell.numeric ? (
-                    <ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />
-                  ) : null
-                }
+                endDecorator={<ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />}
                 sx={{
                   '& svg': {
                     transition: '0.2s',
@@ -159,10 +121,11 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
+  headCells: PropTypes.arrayOf(PropTypes.object),
 };
 
-function EnhancedTableToolbar(props) {
-  const { variant } = props;
+function EnhancedTableToolbar({ toolBarParams }) {
+  const { title, styles } = toolBarParams;
 
   return (
     <Box
@@ -178,14 +141,15 @@ function EnhancedTableToolbar(props) {
     >
       <Typography
         level="body-lg"
-        sx={{ flex: '1 1 100%', color: variant === 'rejection' ? '#f05f56' : '#4bba7b' }}
+        sx={{ flex: '1 1 100%', ...styles }}
         id="tableTitle"
         component="div"
       >
-        {variant === 'rejection' ? 'Rejected' : 'Approved'} Leave Applications
+        {/* {variant === 'rejection' ? 'Rejected' : 'Approved'} Leave Applications */}
+        {title}
 
       </Typography>
-      <Tooltip title="Filter list">
+      <Tooltip title="Table View">
         <IconButton size="sm" variant="outlined" color="neutral">
           <FilterListIcon />
         </IconButton>
@@ -195,19 +159,28 @@ function EnhancedTableToolbar(props) {
 }
 
 EnhancedTableToolbar.propTypes = {
-  variant: PropTypes.string
+  toolBarParams: PropTypes.object
 };
 
-export default function TableSortAndSelection({ rows, variant }) {
+export default function TableSortAndSelection({ headCells, rows, toolBarParams }) {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('name');
+  const [orderBy, setOrderBy] = React.useState(null);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(7);
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+    const isDesc = orderBy === property && order === 'desc';
+    if (isAsc) {
+      setOrder('desc');
+      setOrderBy(property);
+    } else if (isDesc) {
+      setOrder(null);
+      setOrderBy(null);
+    } else {
+      setOrder('asc');
+      setOrderBy(property);
+    }
   };
 
   const handleChangePage = (newPage) => {
@@ -237,10 +210,11 @@ export default function TableSortAndSelection({ rows, variant }) {
       variant="outlined"
       sx={{ width: '100%', boxShadow: 'sm', borderRadius: 'sm' }}
     >
-      <EnhancedTableToolbar variant={variant} />
+      <EnhancedTableToolbar toolBarParams={toolBarParams} />
       <Table
         aria-labelledby="tableTitle"
         hoverRow
+        stripe="odd"
         sx={{
           '--TableCell-headBackground': 'transparent',
           '--TableCell-selectedBackground': (theme) =>
@@ -259,25 +233,52 @@ export default function TableSortAndSelection({ rows, variant }) {
           orderBy={orderBy}
           onRequestSort={handleRequestSort}
           rowCount={rows.length}
+          headCells={headCells}
         />
         <tbody>
           {stableSort(rows, getComparator(order, orderBy))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row, index) => {
-
+            .map((row, row_index) => {
               return (
                 <tr
                   tabIndex={-1}
-                  key={row.name + row.from}
+                  key={row.id}
                 >
-                  <th scope="row">
+                  {/* <th scope="row">
                     {row.name}
                   </th>
                   <td>{row.role}</td>
                   <td>{row.type}</td>
                   <td>{row.from}</td>
                   <td>{row.to}</td>
-                  <td>{row.totalDays}</td>
+                  <td>{row.totalDays}</td> */}
+                  {
+                    headCells.map((column, col_index) => {
+                      let column_Data = row[column.id];
+                      let cellData = (column.type === 'object') ? column_Data.data : column_Data;
+                      let toolTipInfo = (column.type === 'object') ? column_Data.content : column_Data;
+                      return (
+                        <Tooltip title={toolTipInfo} placement="top-start">
+                          {
+                            col_index === 0 ? (
+                              <th
+                                key={row_index + '' + col_index}
+                                scope="row"
+                                style={{
+                                  paddingLeft: '20px',
+                                }}
+                              >
+                                {cellData}
+                              </th>) : (
+                              <td>
+                                {cellData}
+                              </td>
+                            )
+                          }
+                        </Tooltip>
+                      )
+                    })
+                  }
                 </tr>
               );
             })}
@@ -306,7 +307,7 @@ export default function TableSortAndSelection({ rows, variant }) {
                 <FormControl orientation="horizontal" size="sm">
                   <FormLabel>Rows per page:</FormLabel>
                   <Select onChange={handleChangeRowsPerPage} value={rowsPerPage}>
-                    <Option value={5}>5</Option>
+                    <Option value={7}>7</Option>
                     <Option value={10}>10</Option>
                     <Option value={25}>25</Option>
                   </Select>

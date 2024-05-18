@@ -11,8 +11,9 @@ import LoginPage from './Login/LoginPage';
 import HomePage from './Home/HomePage';
 import Calendar from './Calendar/Calendar';
 import LeavesFullHistory from './Leaves/LeavesFullHistory';
-import Users from './Users/users';
+import Users from './Users/Users';
 import Admin from './Admin/Admin';
+import Analytics from './Analytics/Analytics';
 import Layout from './Layout';
 
 const router = createBrowserRouter(
@@ -42,6 +43,11 @@ const router = createBrowserRouter(
       <Route path="users" element={
         <ErrorBoundary>
           <Users />
+        </ErrorBoundary>
+      } />
+      <Route path="analytics" element={
+        <ErrorBoundary>
+          <Analytics />
         </ErrorBoundary>
       } />
       <Route path='*' element={
