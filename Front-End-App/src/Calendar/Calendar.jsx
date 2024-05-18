@@ -5,13 +5,12 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
 import multiMonthPlugin from "@fullcalendar/multimonth";
-import getEvents from "./events";
-import Tooltip from '@mui/material/Tooltip';
+import calendarEvents from "./events.json";
+import FestivalToolTip from "./FestivalToolTip";
 import "./Calendar.css";
 function Calendar() {
 
   const [listView, setListView] = useState("listMonth");
-  const calendarEvents = getEvents(listView);
 
   const handleDatesSet = (arg) => {
     switch (arg.view.type) {
@@ -34,7 +33,7 @@ function Calendar() {
   };
   useEffect(() => {
     document.title = 'Calendar';
-}, []);
+  }, []);
 
   return (
 
@@ -68,15 +67,22 @@ function Calendar() {
           prevYear: "chevrons-left",
           nextYear: "chevrons-right",
         }}
-        events={calendarEvents}
+        events={calendarEvents.map(event => {
+          let temp = JSON.parse(JSON.stringify(event));
+          temp.classNames.push(listView === "listYear" ? "small" : "large");
+          return temp;
+        })}
         datesSet={handleDatesSet}
         height={"80vh"}
         eventContent={(arg, createElement) => {
           const titleHtml = createElement('span', {}, arg.event.title);
           return (
-            <Tooltip title={arg.event.title}>
+            <FestivalToolTip props={{
+              ...arg.event.extendedProps,
+              title: arg.event.title,
+            }}>
               {titleHtml}
-            </Tooltip>
+            </FestivalToolTip>
           );
         }}
       />

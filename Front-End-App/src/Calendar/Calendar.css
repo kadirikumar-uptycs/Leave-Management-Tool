@@ -15,12 +15,12 @@
 }
 
 /* Highlight the Holiday cell */
-.fc-daygrid-day-frame:has(.holiday-event){
+.fc-daygrid-day-frame:has(.holiday-event) {
   background-color: #afdefe;
 }
 
 /* Center the Event Name */
-.fc-direction-ltr .fc-daygrid-event.fc-event-start{
+.fc-direction-ltr .fc-daygrid-event.fc-event-start {
   margin-left: 0;
 }
 
@@ -38,17 +38,29 @@
   display: flex;
   justify-content: center;
 }
-.fc .fc-daygrid-day.fc-day-today{
-  background-color: gold;
+.fc .fc-daygrid-day.fc-day-today {
+  background-color: rgb(229, 213, 124);
 }
 
+/* Customize Holiday Event */
+.fc-h-event {
+  background: none;
+  border: none;
+}
+.fc-h-event span {
+  color: #0c0048;
+}
+.fc-list-event-time {
+  color: #ffad18;
+}
 .holiday-event {
   font-family: "Poppins-Regular";
   font-weight: 600;
   overflow: hidden;
-  color: rosybrown;
+  color: #6cb6b6;
   margin: 0;
 }
+
 .holiday-event span {
   white-space: nowrap;
   overflow: hidden;
@@ -56,12 +68,14 @@
 }
 .small {
   font-size: 9px;
+  font-family: "Poppins-ExtraBold";
   position: relative;
   top: 13px;
   width: 50px;
 }
 .large {
-  font-size: 17px;
+  font-size: 13px;
+  font-family: "Poppins-ExtraBold";
   position: relative;
   top: 5px;
   padding: 5px;
