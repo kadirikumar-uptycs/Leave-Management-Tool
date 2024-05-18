@@ -166,7 +166,7 @@ export default function TableSortAndSelection({ headCells, rows, toolBarParams }
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState(null);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(7);
 
   const handleRequestSort = (_, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -307,7 +307,7 @@ export default function TableSortAndSelection({ headCells, rows, toolBarParams }
                 <FormControl orientation="horizontal" size="sm">
                   <FormLabel>Rows per page:</FormLabel>
                   <Select onChange={handleChangeRowsPerPage} value={rowsPerPage}>
-                    <Option value={5}>5</Option>
+                    <Option value={7}>7</Option>
                     <Option value={10}>10</Option>
                     <Option value={25}>25</Option>
                   </Select>
