@@ -23,9 +23,11 @@ pipeline {
 
         stage('Build') {
           steps {
-            sh 'npm install --force'
-            sh 'npm run build'
-            sh 'sudo docker build -t mohankumar1729/cx-tools:leave-management-tool .'
+            dir(path: 'frontend-app'){
+              sh 'npm install --force'
+              sh 'npm run build'
+              sh 'sudo docker build -t mohankumar1729/cx-tools:leave-management-tool .'
+            }
           }
         }
 
