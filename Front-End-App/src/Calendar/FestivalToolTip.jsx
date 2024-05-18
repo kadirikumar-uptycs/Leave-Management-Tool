@@ -44,6 +44,8 @@ export default function FestivalToolTip({ props, children }) {
                     >
                         <Link
                             href={wikipedia_URL}
+                            target="_blank"
+                            rel="noopener"
                         >
                             <Typography sx={{ fontSize: '15px' }}>{title}</Typography>
                         </Link>
