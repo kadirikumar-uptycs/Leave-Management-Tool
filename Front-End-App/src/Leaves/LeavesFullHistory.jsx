@@ -97,6 +97,61 @@ let rows = [
             data: <StatusButton status="Pending" />,
             content: "Pending",
         },
+    },
+    {
+        id: '6',
+        type: 'Casual',
+        from: formatDate(getEndDate(Date.now(), -41)),
+        to: formatDate(getEndDate(Date.now(), -25)),
+        totalDays: 17,
+        status: {
+            data: <StatusButton status="Approved" />,
+            content: "Approved",
+        },
+    },
+    {
+        id: '7',
+        type: 'Sick',
+        from: formatDate(getEndDate(Date.now(), 1)),
+        to: formatDate(getEndDate(Date.now(), 2)),
+        totalDays: 2,
+        status: {
+            data: <StatusButton status="Pending" />,
+            content: "Pending",
+        },
+    },
+    {
+        id: '8',
+        type: 'Sick',
+        from: formatDate(getEndDate(Date.now(), -140)),
+        to: formatDate(getEndDate(Date.now(), -137)),
+        totalDays: 4,
+        status: {
+            data: <StatusButton status="Approved" />,
+            content: "Approved",
+        },
+    },
+    {
+        id: '9',
+        type: 'Casual',
+        from: formatDate(getEndDate(Date.now(), -110)),
+        to: formatDate(getEndDate(Date.now(), -109)),
+        totalDays: 2,
+        status: {
+            data: <StatusButton status="Rejected" />,
+            content: "Rejected",
+        },
+    },
+    {
+        id: '10',
+        type: 'Sick',
+        from: formatDate(getEndDate(Date.now(), 1)),
+        to: formatDate(getEndDate(Date.now(), 1)),
+        totalDays: 1,
+        status: {
+            data: <StatusButton status="Pending" />,
+            content: "Pending",
+        },
     }
 ];
 
