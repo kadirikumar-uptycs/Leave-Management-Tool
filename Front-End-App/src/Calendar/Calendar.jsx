@@ -69,7 +69,8 @@ function Calendar() {
         }}
         events={calendarEvents.map(event => {
           let temp = JSON.parse(JSON.stringify(event));
-          temp.classNames.push(listView === "listYear" ? "small" : "large");
+          temp.classNames = ["holiday-event", listView === "listYear" ? "small" : "large"];
+          temp.Eventdate = temp.date;
           return temp;
         })}
         datesSet={handleDatesSet}
