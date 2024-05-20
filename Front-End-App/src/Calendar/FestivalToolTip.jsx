@@ -11,6 +11,7 @@ export default function FestivalToolTip({ props, children }) {
     return (
         <Tooltip
             placement="top"
+            keepMounted
             variant="outlined"
             sx={{
                 padding: 0,
