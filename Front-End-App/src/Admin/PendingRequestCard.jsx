@@ -47,12 +47,12 @@ const PendingRequestCard = ({ leaveInfo }) => {
                 <div className="leave-type">{leaveInfo.leaveType}</div>
                 <div className="description">{leaveInfo.reason}</div>
             </div>
-            <div className="available-leaves">
+            {/* <div className="available-leaves">
                 <div>
                     <span className={`count ${leaveInfo.available > 5 ? 'success' : 'warning'}`}>{`${leaveInfo.available > 9 ? '' : '0'}${leaveInfo.available}`}&nbsp;&nbsp;</span>
                     <span className="label">Leaves Available</span>
                 </div>
-            </div>
+            </div> */}
             <div className="buttons">
                 <GitHubTooltip>
                     <Button variant="solid" color='primary' sx={{
