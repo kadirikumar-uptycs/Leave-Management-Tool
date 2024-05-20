@@ -18,6 +18,10 @@ import Modal from '@mui/joy/Modal';
 import Grow from '@mui/material/Grow';
 import Box from '@mui/joy/Box';
 import UserForm from './UserForm';
+import config from '../config';
+import { useSnackbar } from '../common/SnackBarProvider';
+import axios from 'axios';
+
 
 let users = [
     {
@@ -113,9 +117,21 @@ let users = [
 const Users = () => {
     let [filteredUsers, setFilteredUsers] = useState(users);
     let [showModal, setShowModal] = useState(false);
+    let openSnackbar = useSnackbar();
 
     let handleOpen = () => setShowModal(true);
     let handleClose = () => setShowModal(false);
+
+    let handleUserFormSubmit = async (formData) => {
+        handleClose();
+        try{
+            await axios.post(`${config.SERVER_BASE_ADDRESS}/user`, formData);
+            openSnackbar('User has been created','success');
+        }catch(err){
+            console.log(err);
+            openSnackbar(err.message, 'danger');
+        }
+    }
 
     function filterUsers(query) {
         let queryArray = query.toLowerCase().split("");
@@ -159,7 +175,7 @@ const Users = () => {
                             width: 890,
                             height: 690,
                         }}>
-                            <UserForm />
+                            <UserForm handleUserFormSubmit={handleUserFormSubmit} />
                         </Box>
                     </Grow>
                 </Modal>

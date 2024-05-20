@@ -6,6 +6,7 @@ import {
   RouterProvider
 } from "react-router-dom";
 import ErrorBoundary from './common/ErrorBoundary';
+import { SnackbarProvider } from './common/SnackBarProvider';
 import PageNotFound from './common/PageNotFound';
 import LoginPage from './Login/LoginPage';
 import HomePage from './Home/HomePage';
@@ -61,8 +62,10 @@ const router = createBrowserRouter(
 
 export default function App() {
   return (
-    <ErrorBoundary>
-      <RouterProvider router={router} />
-    </ErrorBoundary>
+    <SnackbarProvider>
+      <ErrorBoundary>
+        <RouterProvider router={router} />
+      </ErrorBoundary>
+    </SnackbarProvider>
   );
 }
