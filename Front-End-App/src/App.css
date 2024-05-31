@@ -164,17 +164,6 @@
 .header-options > .notifications:hover {
   opacity: 1;
 }
-.header-options > .profile,
-.header-options > .profile > img {
-  border-radius: 50%;
-  width: 45px;
-  aspect-ratio: 1/1;
-  user-select: none;
-}
-.header-options > .profile > img {
-  border: 2px solid #81ecec;
-  padding: 2px;
-}
 .content {
   margin: 30px 50px 30px 30px;
 }
