@@ -1,4 +1,3 @@
-// SnackbarProvider.js
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import Snackbar from '@mui/joy/Snackbar';
 import Typography from '@mui/joy/Typography';
