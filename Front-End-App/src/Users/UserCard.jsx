@@ -7,8 +7,10 @@ import Link from '@mui/joy/Link';
 import Tooltip from '@mui/joy/Tooltip';
 import LocalAirportIcon from '@mui/icons-material/LocalAirport';
 import UserMenu from './UserMenu';
+import { useSelector } from 'react-redux';
 
-const UserCard = ({ ProfileImage, name, role, phone, email, shift }) => {
+const UserCard = ({ id, ProfileImage, name, role, phone, email, shift }) => {
+    const currentUserShift = useSelector(state => state?.auth?.userInfo?.shift);
     return (
         <Card
             sx={{
@@ -19,11 +21,12 @@ const UserCard = ({ ProfileImage, name, role, phone, email, shift }) => {
                 textAlign: 'center',
                 backgroundColor: '#f4f9ff',
                 borderRadius: '11px',
+                maxHeight: '276px',
             }}
         >
             {
-                (shift === 'US') ? (
-                    <Tooltip title="US Shift">
+                (currentUserShift && shift && shift !== currentUserShift) ? (
+                    <Tooltip title={`${shift} Shift`}>
                         <LocalAirportIcon sx={{
                             position: 'absolute',
                             top: '12px',
@@ -38,11 +41,12 @@ const UserCard = ({ ProfileImage, name, role, phone, email, shift }) => {
                 right: 8,
                 padding: 0
             }}>
-                <UserMenu />
+                <UserMenu id={id} name={name} />
             </div>
             <Avatar
                 alt={name}
                 src={ProfileImage}
+                slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
                 sx={{
                     width: 80,
                     height: 80,
@@ -51,18 +55,23 @@ const UserCard = ({ ProfileImage, name, role, phone, email, shift }) => {
                 }}
             />
             <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography
-                    level="h6"
-                    component="div"
-                    sx={{
-                        marginTop: 2,
-                        fontFamily: 'Poppins-ExtraBold',
-                        color: '#0c0048',
-
-                    }}
-                >
-                    {name}
-                </Typography>
+                <Tooltip title={name}>
+                    <Typography
+                        level="h6"
+                        component="div"
+                        sx={{
+                            marginTop: 2,
+                            fontFamily: 'Poppins-ExtraBold',
+                            color: '#0c0048',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            maxWidth: '100%',
+                        }}
+                    >
+                        {name}
+                    </Typography>
+                </Tooltip>
 
                 <Typography level="body2" color="neutral" component="div" sx={{
                     margin: '10px 0 3px 0',

@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
-import { useSnackbar } from '../common/SnackBarProvider';
+import React, { useEffect, useRef } from 'react';
+import { useSnackbar } from '../hooks/SnackBarProvider';
 import './UserForm.css';
 import RadioGroup from '../common/RadioGroup';
 
-const UserForm = ({handleUserFormSubmit}) => {
+const UserForm = ({ handleUserFormSubmit, edit, editFormDetails }) => {
     let formDataRef = useRef({})
     let openSnackbar = useSnackbar()
     let uptycsEmailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@uptycs\\.com$");
@@ -27,6 +27,8 @@ const UserForm = ({handleUserFormSubmit}) => {
             [event.currentTarget.name]: event.currentTarget.value
         }
     }
+
+    const setInputValue = (key) => (edit && editFormDetails?.[key]) || '';
 
     let validateFormData = () => {
         let formData = formDataRef?.current || {};
@@ -55,9 +57,13 @@ const UserForm = ({handleUserFormSubmit}) => {
             openSnackbar('Invalid American Phone Number', 'danger')
         }
         else {
-            handleUserFormSubmit(formData);
+            handleUserFormSubmit(formData, edit, editFormDetails?._id);
         }
     }
+
+    useEffect(() => {
+        formDataRef.current = editFormDetails || {};
+    }, [editFormDetails])
 
     return (
         <div className="form-wrapper">
@@ -68,24 +74,24 @@ const UserForm = ({handleUserFormSubmit}) => {
                 <div className='form'>
                     <div className="form-row">
                         <div className="input-data">
-                            <input type="text" name='name' required onInput={handleInputEvent} />
+                            <input type="text" name='name' required onInput={handleInputEvent} defaultValue={setInputValue('name')} />
                             <div className="underline"></div>
                             <label>Name</label>
                         </div>
                         <div className="input-data">
-                            <input type="text" name='role' required onInput={handleInputEvent} />
+                            <input type="text" name='role' required onInput={handleInputEvent} defaultValue={setInputValue('role')} />
                             <div className="underline"></div>
                             <label>Role</label>
                         </div>
                     </div>
                     <div className="form-row">
                         <div className="input-data">
-                            <input type="text" name='email' required onInput={handleInputEvent} />
+                            <input type="text" name='email' required onInput={handleInputEvent} defaultValue={setInputValue('email')} />
                             <div className="underline"></div>
                             <label>Email</label>
                         </div>
                         <div className="input-data">
-                            <input type="text" name='phone' required onInput={handleInputEvent} />
+                            <input type="text" name='phone' required onInput={handleInputEvent} defaultValue={setInputValue('phone')} />
                             <div className="underline"></div>
                             <label>Phone</label>
                         </div>
@@ -103,6 +109,7 @@ const UserForm = ({handleUserFormSubmit}) => {
                                 type="new-user-shift"
                                 first="IND"
                                 second="US"
+                                defaultValue={setInputValue('shift')}
                                 handleChangeEvent={handleSelectEvent}
                             />
                         </div>

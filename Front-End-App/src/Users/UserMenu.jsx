@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import IconButton from '@mui/joy/IconButton';
 import Menu from '@mui/joy/Menu';
 import MenuItem from '@mui/joy/MenuItem';
@@ -8,32 +8,57 @@ import Edit from '@mui/icons-material/Edit';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import MenuButton from '@mui/joy/MenuButton';
 import Dropdown from '@mui/joy/Dropdown';
+import { useDispatch } from 'react-redux';
+import { editUser, deleteUser } from '../store/userSlice';
+import ConfirmationSnackBar from '../common/ConfirmationSnackBar';
+export default function UserMenu({ id, name }) {
+    const dispatch = useDispatch();
+    let [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
 
-export default function UserMenu() {
+    const handleOpen = () => setShowConfirmationMessage(true);
+    const handleClose = () => setShowConfirmationMessage(false);
+
+    const onResponse = (opinion) => {
+        handleClose();
+        if(opinion){
+            dispatch(deleteUser(id));
+        }
+    }
+
     return (
-        <Dropdown>
-            <MenuButton
-                slots={{ root: IconButton }}
-                slotProps={{ root: { color: 'neutral' } }}
-            >
-                <MoreVert />
-            </MenuButton>
-            <Menu placement="bottom-start" sx={{
-                backgroundColor: '#f4f9ff',
-            }}>
-                <MenuItem>
-                    <ListItemDecorator>
-                        <Edit />
-                    </ListItemDecorator>{' '}
-                    Edit
-                </MenuItem>
-                <MenuItem variant="soft" color="danger">
-                    <ListItemDecorator sx={{ color: 'inherit' }}>
-                        <DeleteForever />
-                    </ListItemDecorator>{' '}
-                    Delete
-                </MenuItem>
-            </Menu>
-        </Dropdown>
+        <>
+            <Dropdown>
+                <MenuButton
+                    slots={{ root: IconButton }}
+                    slotProps={{ root: { color: 'neutral' } }}
+                >
+                    <MoreVert />
+                </MenuButton>
+                <Menu placement="bottom-start" sx={{
+                    backgroundColor: '#f4f9ff',
+                }}>
+                    <MenuItem onClick={() => {
+                        dispatch(editUser(id))
+                    }}>
+                        <ListItemDecorator>
+                            <Edit />
+                        </ListItemDecorator>{' '}
+                        Edit
+                    </MenuItem>
+                    <MenuItem variant="soft" color="danger" onClick={handleOpen}>
+                        <ListItemDecorator sx={{ color: 'inherit' }}>
+                            <DeleteForever />
+                        </ListItemDecorator>{' '}
+                        Delete
+                    </MenuItem>
+                </Menu>
+            </Dropdown>
+            <ConfirmationSnackBar
+                open={showConfirmationMessage}
+                onClose={handleClose}
+                message={`Are you sure to delete ${name}?`}
+                onResponse={onResponse}
+            />
+        </>
     );
 }

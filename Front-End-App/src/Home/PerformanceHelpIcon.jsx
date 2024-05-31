@@ -2,7 +2,7 @@ import * as React from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import ErrorRoundedIcon from '@mui/icons-material/ErrorRounded';
-
+import IconButton from '@mui/joy/IconButton';
 export default function PerformanceHelpIcon() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -19,9 +19,9 @@ export default function PerformanceHelpIcon() {
 
     return (
         <div>
-            <div className="help" aria-describedby={id} variant="contained" onClick={handleClick} >
-                <ErrorRoundedIcon className='icon'/>
-            </div>
+            <IconButton color='primary' onClick={handleClick} aria-describedby={id} className='help'>
+                <ErrorRoundedIcon />
+            </IconButton>
             <Popover
                 id={id}
                 open={open}

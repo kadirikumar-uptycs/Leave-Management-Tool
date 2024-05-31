@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -8,7 +9,12 @@ import multiMonthPlugin from "@fullcalendar/multimonth";
 import calendarEvents from "./events.json";
 import FestivalToolTip from "./FestivalToolTip";
 import "./Calendar.css";
+
 function Calendar() {
+
+  const myShift = useSelector(state => state?.auth?.userInfo?.shift);
+
+  const myHolidays = calendarEvents.filter(event => event.tags.includes(myShift))
 
   const [listView, setListView] = useState("listMonth");
 
@@ -67,7 +73,7 @@ function Calendar() {
           prevYear: "chevrons-left",
           nextYear: "chevrons-right",
         }}
-        events={calendarEvents.map(event => {
+        events={myHolidays.map(event => {
           let temp = JSON.parse(JSON.stringify(event));
           temp.classNames = ["holiday-event", listView === "listYear" ? "small" : "large"];
           temp.Eventdate = temp.date;

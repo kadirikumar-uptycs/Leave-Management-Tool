@@ -1,106 +1,64 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import PendingRequestCard from './PendingRequestCard';
-import leonardoImage from '../assets/images/Leonardo-Dicaprio.png';
-import faahadImage from '../assets/images/Faahad-Fazil.png';
-import CaptainJackSparrowImage from '../assets/images/profile.png';
 import WhoIsOnLeave from './WhoIsOnLeave';
-import { formatDate, getEndDate } from '../common/getCurrentDate';
 import TableSortAndSelection from '../common/TableSortAndSelection';
+import { fetchLeaves } from '../store/leaveSlice';
+import { formatDate } from '../common/getCurrentDate';
+import Loading from '../common/Loading';
+import NoData from '../common/NoData';
+import Error3 from '../common/Error3';
+import NoDataFound from '../common/NoDataFound';
+import headCells from './leavesTableRows.json';
 import './VerticalTabs.css';
 
-const headCells = [
-    {
-        id: 'name',
-        numeric: false,
-        disablePadding: true,
-        label: 'Employee Name',
-    },
-    {
-        id: 'role',
-        numeric: false,
-        disablePadding: false,
-        label: 'Role',
-    },
-    {
-        id: 'type',
-        numeric: false,
-        disablePadding: false,
-        label: 'Leave Type',
-    },
-    {
-        id: 'from',
-        numeric: false,
-        disablePadding: false,
-        label: 'From',
-    },
-    {
-        id: 'to',
-        numeric: false,
-        disablePadding: false,
-        label: 'To',
-    },
-    {
-        id: 'totalDays',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Days',
-    }
-];
-
-const rows = [
-    {
-        id: '1',
-        name: 'Captain Jack Sparrow',
-        role: 'Team Lead',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), -50)),
-        to: formatDate(getEndDate(Date.now(), -48)),
-        totalDays: 3
-    },
-    {
-        id: '2',
-        name: 'Heath Ledger',
-        role: 'Senior Security Solutions Engineer',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), -31)),
-        to: formatDate(getEndDate(Date.now(), -30)),
-        totalDays: 2
-    },
-    {
-        id: '3',
-        name: 'Vijay Sethupathi',
-        role: 'Team Lead',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), -3)),
-        to: formatDate(getEndDate(Date.now(), -3)),
-        totalDays: 1
-    },
-    {
-        id: '4',
-        name: 'Leonardo Dicaprio',
-        role: 'Senior Security Solutions Engineer',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), -10)),
-        to: formatDate(getEndDate(Date.now(), -6)),
-        totalDays: 5
-    },
-    {
-        id: '5',
-        name: 'Faahadh Fazil',
-        role: 'Security Solutions Engineer',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), 1)),
-        to: formatDate(getEndDate(Date.now(), 5)),
-        totalDays: 5
-    }
-];
 
 
 export default function VerticalTabs() {
+    const dispatch = useDispatch();
+    const leaveState = useSelector(state => state.leave);
+    const leaves = leaveState.leaves;
+    const loading = leaveState.loading;
+    const errors = leaveState.error;
+    const noData = leaveState.noData;
+
+
+    let getDataBasedOnStatus = (status) => {
+        if (Array.isArray(leaves)) {
+            return leaves
+                .filter(leave => leave.status === status)
+                .map(leave => {
+                    return {
+                        ...leave,
+                        id: leave._id,
+                        from: {
+                            data: formatDate(leave.from),
+                            content: leave.from
+                        },
+                        to: {
+                            data: formatDate(leave.to),
+                            content: leave.to
+                        },
+                    }
+                })
+        }
+        return [];
+    }
+
+    useEffect(() => {
+        if (Array.isArray(leaves) && !leaves.length && !noData && !errors) {
+            dispatch(fetchLeaves());
+        }
+    }, [dispatch, leaves, loading, errors, noData]);
+
+    const pendingLeaves = getDataBasedOnStatus('Pending');
+    const approvedLeaves = getDataBasedOnStatus('Approved');
+    const rejectedLeaves = getDataBasedOnStatus('Rejected');
+
     return (
         <Tabs
             variant="outlined"
@@ -130,58 +88,40 @@ export default function VerticalTabs() {
                 }}
             >
                 <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}>
-                    Pending (3)
+                    Pending Leaves ({pendingLeaves.length})
                 </Tab>
                 <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}>
-                    Approved (5)
+                    Approved Leaves ({approvedLeaves.length})
                 </Tab>
                 <Tab disableIndicator variant="soft" sx={{ flexGrow: 1 }}>
-                    Rejected (4)
+                    Rejected Leaves ({rejectedLeaves.length})
                 </Tab>
             </TabList>
             <TabPanel value={0}>
                 <div className="first-tab">
                     <div className="pending-requests">
-                        <PendingRequestCard
-                            leaveInfo={{
-                                name: "Leonardo Dicaprio",
-                                title: "Senior Security Solutions Engineer",
-                                imageSrc: leonardoImage,
-                                appliedDate: Date.now(),
-                                startDate: Date.now(),
-                                days: 3,
-                                leaveType: 'Sick Leave',
-                                reason: 'I cannot make it to the office tommorow as I have come down with case of flu, i am assuming the flu will take at least 3 days to go away.Thus i will be back to the office on wednesday.',
-                                available: 10,
-                            }}
-                        />
-                        <PendingRequestCard
-                            leaveInfo={{
-                                name: "Faahadh Fazil",
-                                title: "Security Solutions Engineer",
-                                imageSrc: faahadImage,
-                                appliedDate: Date.now(),
-                                startDate: Date.now(),
-                                days: 1,
-                                leaveType: 'Casual Leave',
-                                reason: 'Nothing Important, but I just thought that I am going for a movie tomorrow',
-                                available: 2,
-                            }}
-                        />
-                        <PendingRequestCard
-                            leaveInfo={{
-                                name: "Captain Jack Sparrow",
-                                title: "Team Lead",
-                                imageSrc: CaptainJackSparrowImage,
-                                appliedDate: Date.now(),
-                                startDate: Date.now(),
-                                days: 11,
-                                leaveType: 'Casual Leave',
-                                reason: 'I would like to plan a vacation with our pirate crew to Singapore.',
-                                available: 12,
-                            }}
-                        />
+                        {!loading && !errors && pendingLeaves.map(leave => {
+                            return (<PendingRequestCard
+                                key={leave.id}
+                                id={leave.id}
+                                name={leave.name}
+                                role={leave.role}
+                                email={leave.email}
+                                profileImage={leave.profileImage}
+                                type={leave.type}
+                                from={leave.from.content}
+                                fromType={leave.fromType}
+                                to={leave.to.content}
+                                toType={leave.toType}
+                                noOfDays={leave.noOfDays}
+                                reason={leave.reason}
+                                createdAt={leave.createdAt}
+                            />)
+                        })}
                     </div>
+                    {loading && <div style={{ width: '100%', height: '600px' }}><Loading /></div>}
+                    {!loading && errors && <div style={{ width: '100%', height: '600px' }}><Error3 errors={errors} /></div>}
+                    {!loading && !errors && Array.isArray(pendingLeaves) && !pendingLeaves.length && <NoData />}
                     <div className="employees-on-leave">
                         <WhoIsOnLeave />
                     </div>
@@ -190,7 +130,7 @@ export default function VerticalTabs() {
             <TabPanel value={1}>
                 <TableSortAndSelection
                     headCells={headCells}
-                    rows={rows}
+                    rows={approvedLeaves}
                     variant="success"
                     toolBarParams={{
                         title: 'Approved Leave Applications',
@@ -199,11 +139,14 @@ export default function VerticalTabs() {
                         }
                     }}
                 />
+                {!approvedLeaves.length && (
+                    <div style={{ width: '100%', height: '600px' }}><NoDataFound /></div>
+                )}
             </TabPanel>
             <TabPanel value={2}>
                 <TableSortAndSelection
                     headCells={headCells}
-                    rows={rows.slice(0, 4)}
+                    rows={rejectedLeaves}
                     variant="rejection"
                     toolBarParams={{
                         title: 'Rejected Leave Applications',
@@ -212,6 +155,9 @@ export default function VerticalTabs() {
                         }
                     }}
                 />
+                {!rejectedLeaves.length && (
+                    <div style={{ width: '100%', height: '600px' }}><NoDataFound /></div>
+                )}
             </TabPanel>
         </Tabs >
     );

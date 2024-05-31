@@ -84,7 +84,7 @@ const ProgressRing = ({ available, total, color, Radius, showLabel, showPercenta
                         {percentage}
                     </text>
                     <text
-                        x="67%"
+                        x="69%"
                         y="50%"
                         textAnchor="middle"
                         dy="0.3em"

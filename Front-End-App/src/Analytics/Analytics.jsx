@@ -1,6 +1,9 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchLeaves } from '../store/leaveSlice';
 import ThemeSwitch from './Switch';
 import BarChart from './BarChart';
+import { leaveTypeBarOptions, shiftWiseBarOptions } from './chartOptions';
 import generateRandomAttendanceData from './DataGenerator';
 import './Analytics.css';
 
@@ -11,65 +14,6 @@ let AttendanceData4 = generateRandomAttendanceData();
 let AttendanceData5 = generateRandomAttendanceData();
 
 
-const bar1Options = {
-    title: "Leaves type vise",
-    color: ['#37A2FF', '#FFBF00'],
-    xAxis: {
-        data: ['Leaves']
-    },
-    tooltip: {
-        trigger: 'item',
-    },
-    series: [
-        {
-            name: 'Sick',
-            data: [10],
-            type: 'bar',
-            label: {
-                show: true,
-            }
-        },
-        {
-            name: 'Casual',
-            data: [52.5],
-            type: 'bar',
-            label: {
-                show: true,
-            }
-        }
-    ]
-}
-const bar2Options = {
-    title: "Leaves shift vise",
-    color: ['#80FFA5', '#00DDFF'],
-    xAxis: {
-        data: ['Leaves']
-    },
-    yAxis: {
-        name: 'Count',
-    },
-    tooltip: {
-        trigger: 'item',
-    },
-    series: [
-        {
-            name: 'India',
-            data: [42.5],
-            type: 'bar',
-            label: {
-                show: true,
-            }
-        },
-        {
-            name: 'America',
-            data: [20],
-            type: 'bar',
-            label: {
-                show: true,
-            }
-        }
-    ]
-}
 
 const Line1Options = {
     title: "Shift Attendance Percentage for last 365 days",
@@ -182,9 +126,29 @@ const Line2Options = {
 
 const Analytics = () => {
     let [darkTheme, setDarkTheme] = useState(false);
+    const dispatch = useDispatch();
+    const leaveState = useSelector(state => state.leave);
+    const leaves = leaveState.leaves;
+    // const loading = leaveState.loading;
+    const errors = leaveState.error;
+    const noData = leaveState.noData;
+
+    // chart options
+    const bar1Options = leaveTypeBarOptions(leaves);
+    const bar2Options = shiftWiseBarOptions(leaves);
+
+
     useLayoutEffect(() => {
         document.title = "Analytics";
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (Array.isArray(leaves) && !leaves.length && !noData && !errors) {
+            dispatch(fetchLeaves());
+        }
+
+    }, [dispatch, leaves, errors, noData]);
+
     return (
         <div>
             <div className='theme-switch'>
