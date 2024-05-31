@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const leaveApplicationSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
@@ -11,18 +15,46 @@ const leaveApplicationSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    type:{
+    email: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    shift: {
+        type: String,
+        enum: ["IND", "US"],
+        required: true
+    },
+    profileImage: {
+        type: String
+    },
+    reportedTo: {
+        type: String,
+        required: true,
+        enum: ["Sri Rajasekaran", "Kiran Wali"]
+    },
+    type: {
         type: String,
         enum: ["Sick", "Casual"],
         required: true
     },
     from: {
-        type: Date,
+        type: String,
         required: true
     },
+    fromType: {
+        type: String,
+        required: true,
+        enum: ["Full", "First Half", "Second Half"]
+    },
     to: {
-        type: Date,
+        type: String,
         required: true
+    },
+    toType: {
+        type: String,
+        required: true,
+        enum: ["Full", "First Half", "Second Half"]
     },
     noOfDays: {
         type: Number,
@@ -37,6 +69,10 @@ const leaveApplicationSchema = new mongoose.Schema({
         enum: ["Rejected", "Pending", "Approved"],
         required: true
     }
-})
+},
+    {
+        timestamps: true,
+        collection: 'LeaveApplications'
+    })
 
 module.exports = mongoose.model("LeaveApplications", leaveApplicationSchema, "LeaveApplications")
