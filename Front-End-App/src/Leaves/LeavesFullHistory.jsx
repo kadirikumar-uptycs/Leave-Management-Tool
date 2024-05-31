@@ -1,162 +1,31 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import TableSortAndSelection from '../common/TableSortAndSelection';
-import { formatDate, getEndDate } from '../common/getCurrentDate';
+import { formatDate } from '../common/getCurrentDate';
 import Tooltip from '@mui/joy/Tooltip';
 import StatusButton from '../common/StatusButton';
+import Typography from '@mui/joy/Typography';
 import RadioGroup from '../common/RadioGroup';
 import IconButton from '@mui/joy/IconButton';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
-const headCells = [
-    {
-        id: 'type',
-        numeric: false,
-        disablePadding: false,
-        label: 'Leave Type',
-    },
-    {
-        id: 'from',
-        numeric: false,
-        disablePadding: false,
-        label: 'From',
-    },
-    {
-        id: 'to',
-        numeric: false,
-        disablePadding: false,
-        label: 'To',
-    },
-    {
-        id: 'totalDays',
-        numeric: true,
-        disablePadding: false,
-        label: 'Total Days',
-    },
-    {
-        id: 'status',
-        numeric: false,
-        disablePadding: false,
-        label: 'Status',
-        type: "object",
-    }
-];
-
-
-let rows = [
-    {
-        id: '1',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), -50)),
-        to: formatDate(getEndDate(Date.now(), -48)),
-        totalDays: 3,
-        status: {
-            data: <StatusButton status="Approved" />,
-            content: "Approved",
-        },
-    },
-    {
-        id: '2',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), -31)),
-        to: formatDate(getEndDate(Date.now(), -30)),
-        totalDays: 2,
-        status: {
-            data: <StatusButton status="Rejected" />,
-            content: "Rejected",
-        },
-    },
-    {
-        id: '3',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), -3)),
-        to: formatDate(getEndDate(Date.now(), -3)),
-        totalDays: 1,
-        status: {
-            data: <StatusButton status="Approved" />,
-            content: "Approved",
-        },
-    },
-    {
-        id: '4',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), -10)),
-        to: formatDate(getEndDate(Date.now(), -6)),
-        totalDays: 5,
-        status: {
-            data: <StatusButton status="Rejected" />,
-            content: "Rejected",
-        },
-    },
-    {
-        id: '5',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), 1)),
-        to: formatDate(getEndDate(Date.now(), 5)),
-        totalDays: 5,
-        status: {
-            data: <StatusButton status="Pending" />,
-            content: "Pending",
-        },
-    },
-    {
-        id: '6',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), -41)),
-        to: formatDate(getEndDate(Date.now(), -25)),
-        totalDays: 17,
-        status: {
-            data: <StatusButton status="Approved" />,
-            content: "Approved",
-        },
-    },
-    {
-        id: '7',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), 1)),
-        to: formatDate(getEndDate(Date.now(), 2)),
-        totalDays: 2,
-        status: {
-            data: <StatusButton status="Pending" />,
-            content: "Pending",
-        },
-    },
-    {
-        id: '8',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), -140)),
-        to: formatDate(getEndDate(Date.now(), -137)),
-        totalDays: 4,
-        status: {
-            data: <StatusButton status="Approved" />,
-            content: "Approved",
-        },
-    },
-    {
-        id: '9',
-        type: 'Casual',
-        from: formatDate(getEndDate(Date.now(), -110)),
-        to: formatDate(getEndDate(Date.now(), -109)),
-        totalDays: 2,
-        status: {
-            data: <StatusButton status="Rejected" />,
-            content: "Rejected",
-        },
-    },
-    {
-        id: '10',
-        type: 'Sick',
-        from: formatDate(getEndDate(Date.now(), 1)),
-        to: formatDate(getEndDate(Date.now(), 1)),
-        totalDays: 1,
-        status: {
-            data: <StatusButton status="Pending" />,
-            content: "Pending",
-        },
-    }
-];
+import { fetchLeaves } from '../store/leaveSlice';
+import Loading from '../common/Loading';
+import NoDataFound from '../common/NoDataFound';
+import tableHeadCells from './leavesTableColumns.json';
+import LeaveReason from './LeaveReason';
+import Error2 from '../common/Error2';
 
 const LeavesFullHistory = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const leaveState = useSelector(state => state.leave);
+    const leaves = leaveState.leaves;
+    const loading = leaveState.loading;
+    const errors = leaveState.error;
+    const noData = leaveState.noData;
+    const userId = useSelector(state => state.auth?.userInfo?._id);
+    const myLeaves = leaveState.leaves.filter(leave => leave.userId === userId);
     let [searchParams] = useSearchParams();
     let leaveType = searchParams.get("type");
     let statusType = searchParams.get("status");
@@ -172,68 +41,108 @@ const LeavesFullHistory = () => {
         navigate(`/leaveHistory?${(leaveType) ? `type=${leaveType}&` : ''}status=${option}`);
     }
     function getfilteredData() {
-        let temp_rows = rows.map((item) => item);
+        let temp_rows = myLeaves.map((item) => item);
         if ((leaveType && leaveType !== 'All')) {
-            temp_rows = rows.filter(item => item.type === leaveType);
+            temp_rows = myLeaves.filter(item => item.type === leaveType);
         }
         if (statusType && ['Approved', 'Rejected', 'Pending'].includes(statusType)) {
-            return temp_rows && temp_rows.filter(item => item.status.content === statusType);
+            return temp_rows && temp_rows.filter(item => item.status === statusType);
         }
         return temp_rows;
     }
+    useEffect(() => {
+        if (Array.isArray(leaves) && !leaves.length && !noData && !errors) {
+            dispatch(fetchLeaves());
+        }
+
+    }, [dispatch, leaves, errors, noData]);
+
+    const filteredData = getfilteredData();
     return (
-        <div>
-            <div style={{
-                marginBottom: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-evenly'
-            }}>
-                <RadioGroup
-                    type="leave-type"
-                    first="All"
-                    second="Sick"
-                    last="Casual"
-                    handleChangeEvent={handletypeChange}
-                    defaultValue={leaveType ? leaveType: null}
-                />
-                <div onClick={
-                    () => navigate('/leaveHistory')
-                }>
-                <Tooltip arrow title="Clear Filters" color='primary' placement='top'>
-                    <IconButton>
-                        <FilterAltOffIcon sx={{
-                            color: '#222bcc',
-                            padding: '3px',
-                            fontSize: '31px'
-                        }} />
-                    </IconButton >
-                </Tooltip>
-                </div>
-                <RadioGroup
-                    type="status-type"
-                    first="Approved"
-                    second="Pending"
-                    last="Rejected"
-                    handleChangeEvent={handleStatusChange}
-                    defaultValue={(statusType && ['Approved', 'Rejected', 'Pending'].includes(statusType)) ? statusType : null}
-                />
-                
-            </div>
-            <TableSortAndSelection
-                headCells={headCells}
-                rows={getfilteredData()}
-                toolBarParams={{
-                    title: 'Applied Leaves',
-                    styles: {
-                        color: '#0c0048',
-                        textAlign: 'center',
-                        fontWeight: '700',
-                        fontFamily: 'Poppins-SemiBold',
-                    }
-                }}
-            />
-        </div>
+        <>
+            {
+                (Array.isArray(myLeaves)) ? (
+                    <div>
+                        <div style={{
+                            marginBottom: '20px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-evenly'
+                        }}>
+                            <RadioGroup
+                                type="leave-type"
+                                first="All"
+                                second="Sick"
+                                last="Casual"
+                                handleChangeEvent={handletypeChange}
+                                defaultValue={leaveType ? leaveType : null}
+                            />
+                            <div onClick={
+                                () => navigate('/leaveHistory')
+                            }>
+                                <Tooltip arrow title="Clear Filters" color='primary' placement='top'>
+                                    <IconButton>
+                                        <FilterAltOffIcon sx={{
+                                            color: '#222bcc',
+                                            padding: '3px',
+                                            fontSize: '31px'
+                                        }} />
+                                    </IconButton >
+                                </Tooltip>
+                            </div>
+                            <RadioGroup
+                                type="status-type"
+                                first="Approved"
+                                second="Pending"
+                                last="Rejected"
+                                handleChangeEvent={handleStatusChange}
+                                defaultValue={(statusType && ['Approved', 'Rejected', 'Pending'].includes(statusType)) ? statusType : null}
+                            />
+
+                        </div>
+                        <TableSortAndSelection
+                            headCells={tableHeadCells}
+                            rows={filteredData.map(leave => {
+                                return {
+                                    ...leave,
+                                    id: leave._id,
+                                    from: {
+                                        data: formatDate(leave.from),
+                                        content: leave.from
+                                    },
+                                    to: {
+                                        data: formatDate(leave.to),
+                                        content: leave.to
+                                    },
+                                    status: {
+                                        data: <StatusButton status={leave.status} />,
+                                        content: leave.status,
+                                    },
+                                    reason: {
+                                        data: (
+                                            <LeaveReason reason={leave.reason} />
+                                        ),
+                                        content: leave.reason,
+                                    }
+                                };
+                            })}
+                            toolBarParams={{
+                                title: 'Applied Leaves',
+                                styles: {
+                                    color: '#0c0048',
+                                    textAlign: 'center',
+                                    fontWeight: '700',
+                                    fontFamily: 'Poppins-SemiBold',
+                                }
+                            }}
+                        />
+                    </div>
+                ) : <></>
+            }
+            {loading && <div style={{ width: '100%', height: '600px' }}><Loading /></div>}
+            {errors && <div style={{ width: '100%', height: '600px' }}><Error2 errors={errors} /></div>}
+            {!loading && !errors && Array.isArray(filteredData) && !filteredData.length && <div style={{ width: '100%', height: '600px' }}><NoDataFound /></div>}
+        </>
     );
 }
 

@@ -1,0 +1,52 @@
+[
+    {
+        "id": "name",
+        "numeric": false,
+        "disablePadding": true,
+        "label": "Employee Name"
+    },
+    {
+        "id": "role",
+        "numeric": false,
+        "disablePadding": false,
+        "label": "Role"
+    },
+    {
+        "id": "type",
+        "numeric": false,
+        "disablePadding": false,
+        "label": "Leave Type"
+    },
+    {
+        "id": "from",
+        "numeric": false,
+        "disablePadding": false,
+        "label": "From",
+        "type": "object"
+    },
+    {
+        "id": "fromType",
+        "numeric": false,
+        "disablePadding": false,
+        "label": "From Day Type"
+    },
+    {
+        "id": "to",
+        "numeric": false,
+        "disablePadding": false,
+        "label": "To",
+        "type": "object"
+    },
+    {
+        "id": "toType",
+        "numeric": false,
+        "disablePadding": false,
+        "label": "To Day Type"
+    },
+    {
+        "id": "noOfDays",
+        "numeric": true,
+        "disablePadding": false,
+        "label": "Total Days"
+    }
+]

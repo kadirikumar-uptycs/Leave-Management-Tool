@@ -1,64 +1,49 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import StatusButton from '../common/StatusButton';
+import { getDayAndMonth } from '../common/getCurrentDate';
+import Typography from '@mui/joy/Typography';
+import Loading from '../common/Loading';
+import NoDataFound from '../common/NoDataFound';
+import Error1 from '../common/Error1';
 
-
-
-function getStatusColorCode(status){
-    if(status === 'Pending') return '#9a90c9'
-    if(status === 'Approved') return '#2c6d58'
+function getStatusColorCode(status) {
+    if (status === 'Pending') return '#9a90c9'
+    if (status === 'Approved') return '#2c6d58'
     return '#bd0c0c';
 }
 
 const LeaveHistory = () => {
+    const leaveState = useSelector(state => state.leave);
+    const leaves = leaveState.leaves;
+    const loading = leaveState.loading;
+    const errors = leaveState.error;
+    const userId = useSelector(state => state.auth?.userInfo?._id);
+    const myLeaves = leaves.filter(leave => leave.userId === userId);
 
-    let leaveHistory = [
-        {
-            id: 1,
-            category: 'Sick Leave',
-            'from-to': '1st-2nd May',
-            totalDays: 1,
-            status: 'Pending',
-        },
-        {
-            id: 2,
-            category: 'Casual Leave',
-            'from-to': '31st Mar-2nd Apr',
-            totalDays: 3,
-            status: 'Approved',
-        },
-        {
-            id: 3,
-            category: 'Casual Leave',
-            'from-to': '17th-29th Feb',
-            totalDays: 13,
-            status: 'Rejected',
-        },
-        {
-            id: 5,
-            category: 'Sick Leave',
-            'from-to': '15th-19th Jan',
-            totalDays: 5,
-            status: 'Approved',
-        }
-    ]
+    
 
     return (
         <div className='application-history' style={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'space-evenly',
             height: '100%',
+            marginTop: '15px',
         }}>
-            {leaveHistory.map(application => {
+            {loading && <div style={{ width: '100%', height: '400px' }}><Loading /></div>}
+            {!loading && errors && <Error1 errors={errors} />}
+            {!loading && !errors && Array.isArray(myLeaves) && !myLeaves.length && <NoDataFound />}
+            {!loading && !errors && Array.isArray(myLeaves) && myLeaves.reverse().slice(0, 4).map(application => {
                 return (
-                    <div className='application' key={application.id} style={{
+                    <div className='application' key={application._id} style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-evenly',
                         backgroundColor: '#f4f9ff',
                         padding: '7px 5px',
+                        marginBottom: '8px',
                         width: '95%',
                         fontFamily: 'Poppins-Regular',
                     }}>
@@ -77,17 +62,43 @@ const LeaveHistory = () => {
                                 color: '#1b193d',
                             }}
                         >
-                            {application.category}
+                            {application.type} Leave
                         </span>
                         <span
                             className="from-to"
                             style={{
                                 width: '27%',
-                                color: '#6c727f',
-                                fontSize: '13px',
-                                fontWeight: '500',
+                                display: 'flex',
+                                justifyContent: 'center'
                             }}>
-                            {application['from-to']}
+                            <Typography
+                                sx={{
+                                    color: '#6c727f',
+                                    fontSize: '13px',
+                                    fontWeight: '500',
+                                }} title={application.fromType}
+                            >
+                                {getDayAndMonth(application.from)}
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: '#6c727f',
+                                    fontSize: '17px',
+                                    fontWeight: '500',
+                                }}
+                            >
+                                &nbsp;&nbsp;{"➺"}&nbsp;&nbsp;
+                            </Typography>
+                            <Typography
+                                sx={{
+                                    color: '#6c727f',
+                                    fontSize: '13px',
+                                    fontWeight: '500',
+                                }}
+                                title={application.toType}
+                            >
+                                {getDayAndMonth(application.to)}
+                            </Typography>
                         </span>
                         <span
                             className="totalDays"
@@ -99,7 +110,7 @@ const LeaveHistory = () => {
                                 fontWeight: '500',
                             }}
                         >
-                            {`${application.totalDays} ${(application.totalDays === 1) ? 'Day' : 'Days'}`}
+                            {`${application.noOfDays} ${(application.noOfDays === 1) ? 'Day' : 'Days'}`}
                         </span>
                         <span
                             className='status'

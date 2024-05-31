@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useSnackbar } from '../hooks/SnackBarProvider';
+import { useSelector } from 'react-redux';
+import { differenceInDays, formatDateToStandard, getEndDate } from '../common/getCurrentDate';
 import Box from '@mui/material/Box';
 import Modal from '@mui/joy/Modal';
 import Grow from '@mui/material/Grow';
@@ -9,41 +12,117 @@ import RadioGroup from '../common/RadioGroup';
 import DatePicker from '../common/DatePicker';
 import Textarea from '@mui/joy/Textarea';
 import Button from '@mui/joy/Button';
-import GitHubTooltip from '../common/GitHubToolTip';
 import './LeaveRequestModal.css';
 
 
-const LeaveRequestModal = ({ open, onClose }) => {
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%) !important',
-        width: 890,
-        height: 690,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-        p: 4
+const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
+
+    const openSnackbar = useSnackbar();
+    const userDetails = useSelector(state => state.auth.userInfo);
+    const formDataRef = useRef({
+        reportedTo: "Sri Rajasekaran"
+    });
+
+    let [manager, setManager] = useState("Sri Rajasekaran")
+
+    const handleChangeReporting = (event) => {
+        setManager(event?.target?.value);
+        if (typeof formDataRef?.current === 'string')
+            formDataRef.current.reportedTo = event?.target?.value;
     };
 
-    let [manager, setManager] = useState(1);
+    const handleChangeRadio = (event, index, option) => {
+        let name = event.target.name;
+        formDataRef.current[name] = option;
+    }
 
-    const handleChange = (event) => {
-        setManager(event.target.value);
-    };
+
+    const handleDateChange = (name, value) => {
+        formDataRef.current[name] = value;
+    }
+
+    const handleReasonInput = (event) => {
+        formDataRef.current.reason = event.target.value;
+    }
+
+    const validateFormData = () => {
+        let formData = formDataRef?.current || {};
+        const yearAfterToday = formatDateToStandard(getEndDate(new Date(), 365));
+        const today = formatDateToStandard(new Date());
+        if (!formData.reportedTo) {
+            openSnackbar('Choose your <REPORTING MANAGER>', 'danger');
+        } else if (!formData.type) {
+            openSnackbar('Select <LEAVE TYPE>', 'danger');
+        } else if (!formData.from) {
+            openSnackbar('Select <FROM> Date', 'danger');
+        } else if (!formData.fromType) {
+            openSnackbar("Select <DAY TYPE> for FROM Date", 'danger');
+        } else if (!formData.to) {
+            openSnackbar('Select <TO> Date', 'danger');
+        } else if (!formData.toType) {
+            openSnackbar("Select <DAY TYPE> for TO Date", 'danger');
+        } else if (!formData.reason) {
+            openSnackbar('Provide <REASON> for Leave', 'danger');
+        } else if (formData.from < today) {
+            openSnackbar('<FROM> cannot be in the past', 'danger');
+        } else if (formData.from > yearAfterToday) {
+            openSnackbar('<FROM> should be with in 1 Year from now', 'danger');
+        } else if (formData.to > yearAfterToday) {
+            openSnackbar('<TO> should be with in 1 Year from now', 'danger');
+        }
+        else if (formData.from > formData.to) {
+            openSnackbar("'From' date cannot be later than the 'To' date", 'danger');
+        } else if (formData.from === formData.to && formData.fromType !== formData.toType) {
+            openSnackbar("For single day leave, the <DAY TYPE> for 'From' and 'To' should be the same.", 'danger');
+        } else if (formData.from !== formData.to && formData.fromType === 'First Half') {
+            openSnackbar('DISCONTINUED DATE: From Day Type should not be <FIRST HALF>', 'danger');
+        } else if (formData.from !== formData.to && formData.toType === 'Second Half') {
+            openSnackbar('DISCONTINUED DATE: To Day Type should not be <SECOND HALF>', 'danger');
+        } else {
+            let count = 0;
+            let totalDays = differenceInDays(formData.from, formData.to) + 1;
+            count += (formData.fromType === 'Full') ? 1 : 0.5;
+            count += Math.max(totalDays - 2, 0);
+            if (totalDays > 1) count += (formData.toType === 'Full') ? 1 : 0.5;
+
+            formData.noOfDays = count;
+            formData.name = userDetails.name;
+            formData.role = userDetails.role;
+            formData.email = userDetails.email;
+            formData.profileImage = userDetails.profileImage || "";
+            formData.shift = userDetails.shift;
+            formDataRef.current = {
+                reportedTo: "Sri Rajasekaran"
+            }
+            onLeaveFormSubmit(formData);
+        }
+    }
+
+
     return (
         <Modal
             open={open}
             onClose={(event, reason) => {
                 if (reason && reason === "backdropClick")
                     return;
+                formDataRef.current = { reportedTo: "Sri Rajasekaran" };
                 onClose();
             }}
             disableEscapeKeyDown
         >
             <Grow in={open}>
-                <Box sx={style}>
-                    <h2 className='Heading'>Apply Leave</h2>
+                <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%) !important',
+                    width: 890,
+                    height: 690,
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: 4
+                }}>
+                    <span className='Heading'>Apply Leave</span>
                     <div className="body">
                         <div className="col col-1">
                             <div className="group">
@@ -51,7 +130,7 @@ const LeaveRequestModal = ({ open, onClose }) => {
                                 <FormControl sx={{ minWidth: 120 }} size="small">
                                     <Select
                                         value={manager}
-                                        onChange={handleChange}
+                                        onChange={handleChangeReporting}
                                         displayEmpty
                                         inputProps={{ 'aria-label': 'Without label' }}
                                         sx={{
@@ -62,8 +141,8 @@ const LeaveRequestModal = ({ open, onClose }) => {
                                         }}
                                         className='input'
                                     >
-                                        <MenuItem value={1}>Sri Rajasekaran</MenuItem>
-                                        <MenuItem value={2}>Kiran Wali</MenuItem>
+                                        <MenuItem value="Sri Rajasekaran">Sri Rajasekaran</MenuItem>
+                                        <MenuItem value="Kiran Wali">Kiran Wali</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>
@@ -75,20 +154,22 @@ const LeaveRequestModal = ({ open, onClose }) => {
                         <div className="col col-2 group">
                             <span className="title">Leave Type</span>
                             <div className="input">
-                                <RadioGroup type="leave-type" first="Sick Leave" second="Paid Leave" />
+                                <RadioGroup type="type" first="Sick" second="Casual" handleChangeEvent={handleChangeRadio} />
                             </div>
                         </div>
                         <div className="col col-3">
                             <div className="group">
                                 <span className="title">From</span>
                                 <div className="input">
-                                    <DatePicker />
+                                    <DatePicker onDateChange={(value) => {
+                                        handleDateChange('from', value);
+                                    }} />
                                 </div>
                             </div>
                             <div className="group">
                                 <span className="title">Day Type</span>
                                 <div className="input">
-                                    <RadioGroup type="from-date" first="Full" second="First Half" last="Second Half" />
+                                    <RadioGroup type="fromType" first="Full" second="First Half" last="Second Half" handleChangeEvent={handleChangeRadio} />
                                 </div>
                             </div>
                         </div>
@@ -96,13 +177,15 @@ const LeaveRequestModal = ({ open, onClose }) => {
                             <div className="group">
                                 <span className="title">To</span>
                                 <div className="input">
-                                    <DatePicker />
+                                    <DatePicker onDateChange={(value) => {
+                                        handleDateChange('to', value);
+                                    }} />
                                 </div>
                             </div>
                             <div className="group">
                                 <span className="title">Day Type</span>
                                 <div className="input">
-                                    <RadioGroup type="to-date" first="Full" second="First Half" last="Second Half" />
+                                    <RadioGroup type="toType" first="Full" second="First Half" last="Second Half" handleChangeEvent={handleChangeRadio} />
                                 </div>
                             </div>
                         </div>
@@ -127,6 +210,7 @@ const LeaveRequestModal = ({ open, onClose }) => {
                                     placeholder=""
                                     size="lg"
                                     variant="outlined"
+                                    onKeyUp={handleReasonInput}
                                 />
                             </div>
                         </div>
@@ -144,8 +228,9 @@ const LeaveRequestModal = ({ open, onClose }) => {
                             >
                                 Cancel
                             </Button>
-                            <GitHubTooltip>
-                                <Button variant="solid" sx={{
+                            <Button
+                                variant="solid"
+                                sx={{
                                     width: '150px',
                                     aspectRatio: '3/0.9',
                                     backgroundColor: '#222bcc',
@@ -154,11 +239,10 @@ const LeaveRequestModal = ({ open, onClose }) => {
                                         backgroundColor: '#595fd2;'
                                     }
                                 }}
-                                >
-                                    Apply
-                                </Button>
-                            </GitHubTooltip>
-
+                                onClick={validateFormData}
+                            >
+                                Apply
+                            </Button>
                         </div>
                     </div>
                 </Box>
