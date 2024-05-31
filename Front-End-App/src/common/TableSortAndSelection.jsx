@@ -89,9 +89,9 @@ function EnhancedTableHead(props) {
                 color="neutral"
                 textColor={active ? 'primary.plainColor' : undefined}
                 component="button"
-                onClick={createSortHandler(headCell.id)}
+                onClick={headCell.disableSorting ? undefined : createSortHandler(headCell.id)}
                 fontWeight="lg"
-                endDecorator={<ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />}
+                endDecorator={!headCell.disableSorting && <ArrowDownwardIcon sx={{ opacity: active ? 1 : 0 }} />}
                 sx={{
                   '& svg': {
                     transition: '0.2s',
@@ -99,6 +99,7 @@ function EnhancedTableHead(props) {
                       active && order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
                   },
                   '&:hover': { '& svg': { opacity: 1 } },
+                  cursor: (headCell.disableSorting)?'text':'pointer'
                 }}
               >
                 {headCell.label}
@@ -119,7 +120,7 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
+  orderBy: PropTypes.string,
   rowCount: PropTypes.number.isRequired,
   headCells: PropTypes.arrayOf(PropTypes.object),
 };
@@ -258,11 +259,10 @@ export default function TableSortAndSelection({ headCells, rows, toolBarParams }
                       let cellData = (column.type === 'object') ? column_Data.data : column_Data;
                       let toolTipInfo = (column.type === 'object') ? column_Data.content : column_Data;
                       return (
-                        <Tooltip title={toolTipInfo} placement="top-start">
+                        <Tooltip title={column.disableToolTip?'':toolTipInfo} placement="top-start" key={row_index + '' + col_index}>
                           {
                             col_index === 0 ? (
                               <th
-                                key={row_index + '' + col_index}
                                 scope="row"
                                 style={{
                                   paddingLeft: '20px',
@@ -289,13 +289,13 @@ export default function TableSortAndSelection({ headCells, rows, toolBarParams }
                 '--TableRow-hoverBackground': 'transparent',
               }}
             >
-              <td colSpan={6} aria-hidden />
+              <td colSpan={headCells.length} aria-hidden />
             </tr>
           )}
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={6}>
+            <td colSpan={headCells.length}>
               <Box
                 sx={{
                   display: 'flex',
