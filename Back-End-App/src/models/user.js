@@ -33,6 +33,10 @@ const userSchema = new mongoose.Schema({
     accessLevel: {
         type: String,
         default: 'User'
+    },
+    notifications: {
+        type: [mongoose.Schema.Types.Mixed],
+        default: []
     }
 },
 {
@@ -40,4 +44,4 @@ const userSchema = new mongoose.Schema({
     collection: 'Users'
 })
 
-module.exports = mongoose.model("User", userSchema, 'User');
+module.exports = mongoose.model("User", userSchema, 'Users');
