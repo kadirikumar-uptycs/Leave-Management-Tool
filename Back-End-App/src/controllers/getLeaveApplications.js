@@ -2,7 +2,10 @@ const LeaveApplication = require('../models/leaveApplication');
 
 let getLeaveApplications = async (req, res) => {
     try{
-        let applications = await LeaveApplication.find({});
+        let accessLevel = req?.user?.accessLevel;
+        let userId = req?.user?._id;
+        let filters = accessLevel === 'Admin'?{}:{userId};
+        let applications = await LeaveApplication.find(filters);
         return res.status(200).send(applications);
     }catch(err){
         return res.status(500).send(err)

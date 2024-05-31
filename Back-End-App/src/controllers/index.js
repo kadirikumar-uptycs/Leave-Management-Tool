@@ -4,6 +4,9 @@ const editUser = require('./editUser');
 const deleteUser = require('./deleteUser');
 const getLeaveApplications = require('./getLeaveApplications');
 const getHolidaysList = require('./getHolidaysList');
+const applyLeave = require('./applyLeave');
+const approveLeave = require('./approveLeave');
+const rejectLeave = require('./rejectLeave');
 
 module.exports = {
     getUsers,
@@ -12,4 +15,7 @@ module.exports = {
     deleteUser,
     getLeaveApplications,
     getHolidaysList,
+    applyLeave,
+    approveLeave,
+    rejectLeave,
 }
