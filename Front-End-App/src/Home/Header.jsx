@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
+import Avatar from '@mui/joy/Avatar';
 import Drawer from '@mui/material/Drawer';
-import ProfileImage from '../assets/images/profile.png';
 
 const Header = () => {
     let [openDrawer, setOpenDrawer] = useState(false);
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const userName = userInfo.name;
+    const userProfileImage = userInfo.profileImage;
     const toggleDrawer = (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -14,14 +18,28 @@ const Header = () => {
     return (
         <>
             <div className="name">
-                <span>Hello, Captain Jack Sparrow!</span>
+                <span>Hello, {userName}! 👋</span>
             </div>
             <div className='header-options'>
                 <div className="notifications" onClick={toggleDrawer}>
                     <NotificationsActiveRoundedIcon />
                 </div>
-                <div className="profile">
-                    <img src={ProfileImage} alt="" width="30" />
+                <div className="profile" title={userName} sx>
+                    <Avatar
+                        alt={userName}
+                        src={userProfileImage}
+                        slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
+                        sx={{
+                            width: 40,
+                            height: 40,
+                            margin: '0 auto',
+                            marginTop: 1,
+                            '&:hover': {
+                                border: '1px solid cyan',
+                                boxShadow: '0 0 2px cyan'
+                            }
+                        }}
+                    />
                 </div>
             </div>
 
