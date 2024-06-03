@@ -33,14 +33,6 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use((err, req, res, next) => {
-  if (err.code === 'ECONNRESET') {
-    return res.status(500).send('Connection reset error');
-  } else {
-    next(err);
-  }
-});
-
 
 app.use(session({
   name: 'Sri-Staff-Tool',
