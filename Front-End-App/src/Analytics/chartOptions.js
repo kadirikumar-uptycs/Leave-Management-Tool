@@ -1,6 +1,5 @@
 function getTotalLeavesByKey(data, key, value) {
     let total = data.filter(item => item[key] === value && item.status === 'Approved').reduce((total, item) => total += item.noOfDays, 0);
-    console.log(total);
     return total
 }
 
