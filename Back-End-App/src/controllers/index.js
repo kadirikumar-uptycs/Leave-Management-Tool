@@ -7,7 +7,7 @@ const getHolidaysList = require('./getHolidaysList');
 const applyLeave = require('./applyLeave');
 const approveLeave = require('./approveLeave');
 const rejectLeave = require('./rejectLeave');
-
+const getSessions = require('./getSessions');
 module.exports = {
     getUsers,
     createUser,
@@ -18,4 +18,5 @@ module.exports = {
     applyLeave,
     approveLeave,
     rejectLeave,
+    getSessions,
 }
