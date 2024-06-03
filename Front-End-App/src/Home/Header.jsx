@@ -24,7 +24,7 @@ const Header = () => {
                 <div className="notifications" onClick={toggleDrawer}>
                     <NotificationsActiveRoundedIcon />
                 </div>
-                <div className="profile" title={userName} sx>
+                <div className="profile" title={userName}>
                     <Avatar
                         alt={userName}
                         src={userProfileImage}
