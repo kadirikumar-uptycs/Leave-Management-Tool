@@ -11,6 +11,9 @@ import Dropdown from '@mui/joy/Dropdown';
 import { useDispatch } from 'react-redux';
 import { editUser, deleteUser } from '../store/userSlice';
 import ConfirmationSnackBar from '../common/ConfirmationSnackBar';
+
+
+
 export default function UserMenu({ id, name }) {
     const dispatch = useDispatch();
     let [showConfirmationMessage, setShowConfirmationMessage] = useState(false);

@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'User'
     },
+    roles: {
+        type: [mongoose.Schema.Types.String],
+        default: ['User']
+    },
     notifications: {
         type: [mongoose.Schema.Types.Mixed],
         default: []

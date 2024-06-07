@@ -45,7 +45,13 @@ export const SnackbarProvider = ({ children }) => {
                 open={snackbarState.open}
                 variant="solid"
                 color={snackbarState.color}
-                onClose={closeSnackbar}
+                onClose={(event, reason) => {
+                    if (reason === 'clickaway') {
+                        return;
+                    }
+                    closeSnackbar();
+                }
+                }
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 startDecorator={snackbarState.icon}
             >
@@ -56,7 +62,7 @@ export const SnackbarProvider = ({ children }) => {
                     {snackbarState.message}
                 </Typography>
             </Snackbar>
-        </SnackbarContext.Provider>
+        </SnackbarContext.Provider >
     );
 };
 

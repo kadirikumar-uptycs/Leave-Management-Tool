@@ -16,10 +16,16 @@ const authSlice = createSlice({
         logout: (state) => {
             state.loggedIn = false;
             state.userInfo = {};
+        },
+        dismissNotification: (state, action) => {
+            if (Array.isArray(state?.userInfo?.notifications))
+                state.userInfo.notifications = state.userInfo.notifications.filter(notification => notification.id !== action.payload)
+            else
+                state.userInfo.notifications = [];
         }
     }
 })
 
 
 export default authSlice.reducer;
-export const { login, logout } = authSlice.actions;
+export const { login, logout, dismissNotification } = authSlice.actions;

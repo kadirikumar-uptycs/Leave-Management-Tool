@@ -21,7 +21,7 @@ const isAuthenticated = (req, res, next) => {
 
 
 router.get('/isAuthenticated', isAuthenticated, (req, res) => res.status(200).send('Authorized!'))
-router.get('/api', isAuthenticated, (req, res) => res.status(200).send(req?.user));
+router.get('/api', isAuthenticated, controllers.getUser)
 router.post('/user', isAuthenticated, controllers.createUser)
 router.get('/users', isAuthenticated, controllers.getUsers)
 router.put('/user/:id', isAuthenticated, controllers.editUser)
@@ -32,5 +32,6 @@ router.post('/applyLeave', isAuthenticated, controllers.applyLeave)
 router.put('/approveLeave/:id', isAuthenticated, controllers.approveLeave)
 router.put('/rejectLeave/:id', isAuthenticated, controllers.rejectLeave)
 router.get('/holidays', isAuthenticated, controllers.getHolidaysList)
+router.delete('/dismissNotification/:id', isAuthenticated, controllers.dismissNotification)
 
 module.exports = router;

@@ -17,17 +17,17 @@ export default function ConfirmationSnackBar({ open, onClose, message, onRespons
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
                 <div>
-                    <Typography level="title-lg" sx={{ color: '#010101'}}>Hey, Wait!!</Typography>
-                    <Typography sx={{ mt: 1, mb: 2,}}>
+                    <Typography level="title-lg" sx={{ color: '#010101' }}>Hey, Wait!!</Typography>
+                    <Typography sx={{ mt: 1, mb: 2, }}>
                         {message}
                     </Typography>
                     <Stack direction="row" spacing={1}>
-                        <Button variant="solid" color="primary" onClick={() => onResponse(true)}>
+                        <Button variant="solid" color="warning" onClick={() => onResponse(true)}>
                             Yes
                         </Button>
                         <Button
                             variant="outlined"
-                            color="primary"
+                            color="success"
                             onClick={() => onResponse(false)}
                         >
                             No

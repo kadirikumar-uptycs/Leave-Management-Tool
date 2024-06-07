@@ -5,11 +5,17 @@ const passport = require('passport');
 
 const router = express.Router();
 
-router.get('/logout', (req, res, next) => {
-    req.logout((err) => {
-        if (err) { return next(err); }
-    });
-    res.redirect(`${process.env.UI_BASE_URL}/login`);
+router.delete('/logout', (req, res, next) => {
+    try {
+        req.logout((err) => {
+            if (err) {
+                return res.status(500).send({ message: err });
+            }
+        });
+        return res.status(200).send('Logged Out Successfully!!!');
+    } catch (err) {
+        return res.status(500).send({ message: err });
+    }
 });
 
 router.get('/google', passport.authenticate('google', {

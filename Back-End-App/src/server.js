@@ -27,7 +27,7 @@ app.use(cors({
 }));
 
 app.use((req, res, next) => {
-	let message = info("request to route");
+	let message = info(req?.method, " request to route");
 	let route = highlight(req?.path);
 	console.log(message, route, '');
 	next();

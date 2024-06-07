@@ -15,13 +15,16 @@ import { fetchUsers } from '../store/userSlice';
 import { resetEditUserId, resetDeleteUserId } from '../store/userSlice';
 import axios from 'axios';
 import Loading from '../common/Loading';
-import NoDataFound from '../common/NoDataFound';
+import NoData3 from '../common/NoData3';
 import Error2 from '../common/Error2';
 
 
 const Users = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const userRoles = userInfo?.roles || ['User'];
+    const isAdmin = userRoles.includes('Admin');
     const usersState = useSelector(state => state.user);
     const users = usersState.users;
     const loading = usersState.loading;
@@ -43,9 +46,11 @@ const Users = () => {
         handleClose();
         try {
             if (isEdited) {
+            openSnackbar('Updating User details...');
                 await axios.put(`${config.SERVER_BASE_ADDRESS}/user/${id}`, formData, { withCredentials: true })
                 openSnackbar('User has been modified', 'success');
             } else {
+                openSnackbar('Creating new User...');
                 await axios.post(`${config.SERVER_BASE_ADDRESS}/user`, formData, { withCredentials: true });
                 openSnackbar('User has been created', 'success');
             }
@@ -96,6 +101,7 @@ const Users = () => {
         async function deleteUser(id) {
             dispatch(resetDeleteUserId());
             try {
+                openSnackbar('Deleting User details...');
                 await axios.delete(`${config.SERVER_BASE_ADDRESS}/user/${id}`, { withCredentials: true })
                 openSnackbar('User has been deleted', 'success');
                 dispatch(fetchUsers());
@@ -127,16 +133,17 @@ const Users = () => {
                         backgroundColor: '#0c0048',
                     }}
                     onClick={handleOpen}
+                    disabled={!isAdmin}
                 >
                     New User
                 </Button>
 
                 {/* User Form Modal */}
                 <Modal
-                    open={showModal}
+                    open={isAdmin && showModal}
                     onClose={handleClose}
                 >
-                    <Grow in={showModal}>
+                    <Grow in={isAdmin && showModal}>
                         <Box sx={{
                             position: 'absolute',
                             top: '50%',
@@ -168,9 +175,9 @@ const Users = () => {
                     />
                 ))}
             </div>)}
-            {loading && <div style={{ width: '100%', height: '600px'}}><Loading /></div>}
-            {!loading && errors && <div style={{ width: '100%', height: '600px'}}><Error2 errors={errors} /></div>}
-            {!loading && !errors && Array.isArray(filteredUsers) && !filteredUsers.length && <div style={{ width: '100%', height: '600px'}}><NoDataFound /></div>}
+            {loading && <div style={{ width: '100%', height: '600px' }}><Loading /></div>}
+            {!loading && errors && <div style={{ width: '100%', height: '600px' }}><Error2 errors={errors} /></div>}
+            {!loading && !errors && Array.isArray(filteredUsers) && !filteredUsers.length && <div style={{ width: '100%', height: '600px' }}><NoData3 /></div>}
         </div>
     );
 };

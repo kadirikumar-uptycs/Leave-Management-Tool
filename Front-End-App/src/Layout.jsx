@@ -65,9 +65,7 @@ const Layout = () => {
                 <>
                     <SideBar />
                     <div className="main">
-                        <div className="Header">
-                            <Header />
-                        </div>
+                        <Header />
                         <div className="content">
                             <Outlet />
                         </div>

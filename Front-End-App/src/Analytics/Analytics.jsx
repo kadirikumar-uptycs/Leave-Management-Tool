@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fetchLeaves } from '../store/leaveSlice';
 import ThemeSwitch from './Switch';
 import BarChart from './BarChart';
+import PageNotFound from '../common/PageNotFound';
 import { leaveTypeBarOptions, shiftWiseBarOptions } from './chartOptions';
 import generateRandomAttendanceData from './DataGenerator';
 import './Analytics.css';
@@ -133,6 +134,11 @@ const Analytics = () => {
     const errors = leaveState.error;
     const noData = leaveState.noData;
 
+    // Logged User Details
+    const userInfo = useSelector(state => state.auth.userInfo);
+    const currentUserRoles = userInfo?.roles || ['User'];
+    const canAccessPage = currentUserRoles.includes('Admin') || currentUserRoles.includes('Manager');
+
     // chart options
     const bar1Options = leaveTypeBarOptions(leaves);
     const bar2Options = shiftWiseBarOptions(leaves);
@@ -150,29 +156,34 @@ const Analytics = () => {
     }, [dispatch, leaves, errors, noData]);
 
     return (
-        <div>
-            <div className='theme-switch'>
-                <ThemeSwitch dark={darkTheme} handleSwitchChange={(checked) => setDarkTheme(checked)} />
-            </div>
-            <div className='chart-wrapper two-cols-view'>
-                <div className={`chart chart-1 ${darkTheme ? 'dark' : ''}`}>
-                    <BarChart darkTheme={darkTheme} chartOptions={bar1Options} />
+        canAccessPage ?
+            (
+                <div>
+                    <div className='theme-switch'>
+                        <ThemeSwitch dark={darkTheme} handleSwitchChange={(checked) => setDarkTheme(checked)} />
+                    </div>
+                    <div className='chart-wrapper two-cols-view'>
+                        <div className={`chart chart-1 ${darkTheme ? 'dark' : ''}`}>
+                            <BarChart darkTheme={darkTheme} chartOptions={bar1Options} />
+                        </div>
+                        <div className={`chart chart-1 ${darkTheme ? 'dark' : ''}`}>
+                            <BarChart darkTheme={darkTheme} chartOptions={bar2Options} />
+                        </div>
+                    </div>
+                    <div className='chart-wrapper'>
+                        <div className='chart'>
+                            <BarChart darkTheme={darkTheme} chartOptions={Line1Options} />
+                        </div>
+                    </div>
+                    <div className='chart-wrapper'>
+                        <div className='chart'>
+                            <BarChart darkTheme={darkTheme} chartOptions={Line2Options} />
+                        </div>
+                    </div>
                 </div>
-                <div className={`chart chart-1 ${darkTheme ? 'dark' : ''}`}>
-                    <BarChart darkTheme={darkTheme} chartOptions={bar2Options} />
-                </div>
-            </div>
-            <div className='chart-wrapper'>
-                <div className='chart'>
-                    <BarChart darkTheme={darkTheme} chartOptions={Line1Options} />
-                </div>
-            </div>
-            <div className='chart-wrapper'>
-                <div className='chart'>
-                    <BarChart darkTheme={darkTheme} chartOptions={Line2Options} />
-                </div>
-            </div>
-        </div>
+            ) : (
+                <PageNotFound />
+            )
     );
 }
 

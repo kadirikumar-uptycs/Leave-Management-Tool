@@ -10,7 +10,9 @@ import UserMenu from './UserMenu';
 import { useSelector } from 'react-redux';
 
 const UserCard = ({ id, ProfileImage, name, role, phone, email, shift }) => {
-    const currentUserShift = useSelector(state => state?.auth?.userInfo?.shift);
+    const userInfo = useSelector(state => state.auth.userInfo);
+	const currentUserRoles = userInfo?.roles || ['User'];
+    const currentUserShift = userInfo.shift;
     return (
         <Card
             sx={{
@@ -35,14 +37,18 @@ const UserCard = ({ id, ProfileImage, name, role, phone, email, shift }) => {
                     </Tooltip>
                 ) : <></>
             }
-            <div style={{
-                position: 'absolute',
-                top: 8,
-                right: 8,
-                padding: 0
-            }}>
-                <UserMenu id={id} name={name} />
-            </div>
+            {
+                currentUserRoles.includes('Admin')
+                &&
+                (<div style={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    padding: 0
+                }}>
+                    <UserMenu id={id} name={name} />
+                </div>)
+            }
             <Avatar
                 alt={name}
                 src={ProfileImage}
@@ -101,7 +107,7 @@ const UserCard = ({ id, ProfileImage, name, role, phone, email, shift }) => {
                     {phone}
                 </Typography>
                 <Link
-                    href="mailto:fafa@uptycs.com"
+                    href={`mailto:${email}`}
                     color="primary"
                     sx={{
                         fontSize: '17px',

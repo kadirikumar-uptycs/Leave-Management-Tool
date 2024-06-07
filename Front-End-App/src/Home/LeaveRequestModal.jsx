@@ -19,6 +19,11 @@ const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
 
     const openSnackbar = useSnackbar();
     const userDetails = useSelector(state => state.auth.userInfo);
+    const leaveState = useSelector(state => state.leave);
+    const leaves = leaveState.leaves;
+    const userId = useSelector(state => state.auth?.userInfo?._id);
+    const myLeaves = leaves.filter(leave => leave.userId === userId);
+    const leavesTakenTillNow = myLeaves.filter(leave => leave.status === 'Approved').reduce((total, event) => total += event.noOfDays, 0)
     const formDataRef = useRef({
         reportedTo: "Sri Rajasekaran"
     });
@@ -148,7 +153,7 @@ const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
                             </div>
                             <div className="group">
                                 <span className="title">Leaves Left</span>
-                                <span className='input'>You have used <strong>8.5 Leaves</strong> upto this point</span>
+                                <span className='input'>You have used <strong>{leavesTakenTillNow} Leaves</strong> upto this point</span>
                             </div>
                         </div>
                         <div className="col col-2 group">

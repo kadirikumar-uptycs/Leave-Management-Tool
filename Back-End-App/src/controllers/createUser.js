@@ -1,10 +1,11 @@
 const User = require('../models/user');
-
+const {sendNewUserNotificationMail} = require('../helpers/mailSender');
 const createUser = async (req, res) => {
   try {
     const user = new User(req.body);
     user.accessLevel = "User";
-    await user.save()
+    await user.save();
+    sendNewUserNotificationMail(user?.name, user?.email);
     return res.status(201).json(user);
   } catch (err) {
     if (err?.code === 11000) {

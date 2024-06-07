@@ -1,5 +1,7 @@
 const LeaveApplication = require('../models/leaveApplication');
 const User = require('../models/user');
+const { formatNotification, notificationToUsers } = require('../helpers/postUserNotification')
+const { sendleaveProcessedNotificationMail } = require('../helpers/mailSender');
 
 const approveLeave = async (req, res) => {
     try {
@@ -24,6 +26,16 @@ const approveLeave = async (req, res) => {
             if (!leave) {
                 return res.status(404).send({ message: 'Leave application not found' });
             }
+            // Add Notification to User Database
+            notificationToUsers(
+                await formatNotification(
+                    'Leave Approved',
+                    'success',
+                    `Your Leave Applied on ${new Date(leave.createdAt).toUTCString()} has been Approved`
+                ),
+                leave.userId
+            );
+            sendleaveProcessedNotificationMail(leave);
             return res.status(200).send(leave);
         } else {
             return res.status(403).send({ message: 'Unauthorized: Admin access required' });

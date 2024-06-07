@@ -75,3 +75,28 @@ export function getDayAndMonth(date){
 	const {day, month} = parseDate(date);
 	return day + ' ' + month
 }
+
+export const timeAgo = (date) => {
+    const now = new Date();
+    const past = new Date(date);
+    const diffInSeconds = Math.floor((now - past) / 1000);
+
+    const units = [
+        { name: 'second', seconds: 1 },
+        { name: 'minute', seconds: 60 },
+        { name: 'hour', seconds: 60 * 60 },
+        { name: 'day', seconds: 60 * 60 * 24 },
+        { name: 'week', seconds: 60 * 60 * 24 * 7 },
+        { name: 'month', seconds: 60 * 60 * 24 * 30 },
+        { name: 'year', seconds: 60 * 60 * 24 * 365 },
+    ];
+
+    for (let i = units.length - 1; i >= 0; i--) {
+        const interval = Math.floor(diffInSeconds / units[i].seconds);
+        if (interval >= 1) {
+            return `${interval} ${units[i].name}${interval > 1 ? 's' : ''} ago`;
+        }
+    }
+
+    return 'just now';
+};

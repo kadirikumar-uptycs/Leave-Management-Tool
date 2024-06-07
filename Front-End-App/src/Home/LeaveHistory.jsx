@@ -125,7 +125,7 @@ const LeaveHistory = () => {
                         </span>
                         <Link
                             className="link"
-                            to='/leaveHistory'
+                            to={`/leaveHistory?id=${application._id}`}
                             style={{
                                 width: '5%',
                                 color: '#969ba4',

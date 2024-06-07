@@ -27,7 +27,8 @@ const LoginPage = () => {
                 className='sheet'
                 sx={{ boxShadow: 'sm', borderRadius: 'sm' }}
             >
-                <Typography className='tool-name'>Sri-Staff Tool</Typography>
+                <Typography className='tool-name'>CS Leaving</Typography>
+                <Typography className='tool-name'>Tool</Typography>
                 <Button className='sign-in-btn' onClick={handleSignIn}>
                     <img
                         src={GoogleIcon}
