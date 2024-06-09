@@ -16,8 +16,21 @@ let jsonLimit = 5 * 1024 * 1024;
 app.use(bodyParser.json({ limit: jsonLimit }));
 app.use(cookieParser());
 
-// Trust the first proxy in the chain
-if (process.env.PRODUCTION_ENV === 'true') app.set('trust proxy', 1);
+
+if (process.env.PRODUCTION_ENV === 'true'){
+	// Trust the first proxy in the chain
+	app.set('trust proxy', 1);
+	// set response headers for Cross Domain Requests
+	res.header("Access-Control-Allow-Credentials", true);
+	res.header("Access-Control-Allow-Origin", origin);
+	res.header("Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept, Authorization, X-HTTP-Method-Override, Set-Cookie, Cookie");
+	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+
+	// set sameSite to none for cross domain requests
+	// cookieInfo.sameSite = 'none';
+	// cookieInfo.secure = true;
+}
 
 
 app.use(cors({
@@ -33,44 +46,20 @@ app.use((req, res, next) => {
 	next();
 })
 
-app.use(
-	(req, res, next) => {
-		if (req.path === '/auth/google' || (req?.cookies && req.cookies['Sri-Staff-Tool'])) {
-			const origin = req?.headers?.origin;
-			let cookieInfo = {
-				maxAge: 1000 * 60 * 60 * 24,
-			}
-
-			if (process.env.PRODUCTION_ENV === 'true') {
-				// set response headers for Cross Domain Requests
-				res.header("Access-Control-Allow-Credentials", true);
-				res.header("Access-Control-Allow-Origin", origin);
-				res.header("Access-Control-Allow-Headers",
-					"Origin, X-Requested-With, Content-Type, Accept, Authorization, X-HTTP-Method-Override, Set-Cookie, Cookie");
-				res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-
-				// set sameSite to none for cross domain requests
-				cookieInfo.sameSite = 'none';
-				cookieInfo.secure = true;
-			}
-
-			return session({
-				name: 'Sri-Staff-Tool',
-				secret: process.env.SESSION_SECRET,
-				resave: false,
-				saveUninitialized: false,
-				store: MongoStore.create({
-					mongoUrl: MONGODB_URI,
-					autoRemove: 'native',
-					collectionName: 'sessions',
-				}),
-				cookie: cookieInfo,
-			})(req, res, next);
-		} else {
-			return next();
-		}
-	}
-);
+app.use(session({
+	name: 'Sri-Staff-Tool',
+	secret: process.env.SESSION_SECRET,
+	resave: false,
+	saveUninitialized: false,
+	store: MongoStore.create({
+		mongoUrl: MONGODB_URI,
+		autoRemove: 'native',
+		collectionName: 'sessions',
+	}),
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24,
+	},
+}));
 
 // Initialize Passport and restore authentication state, if any, from the session
 app.use(passport.initialize());
@@ -89,10 +78,14 @@ app.use('/', routes);
 const PORT = 17291;
 
 // Connect to MongoDB and then start the server
-connectDB().then(() => {
-	app.listen(PORT, () => {
-		console.log(`✅ Server listening at port ${PORT}`);
-	});
-}).catch((err) => {
-	console.error('⛔ Failed to connect to MongoDB:', err);
-});
+const startServer = async () => {
+	try {
+		await connectDB();
+		app.listen(PORT, () => {
+			console.log(`✅ Server listening at port ${PORT}`);
+		});
+	} catch (err) {
+		console.error('⛔ Failed to connect to MongoDB:', err);
+	}
+};
+startServer();
