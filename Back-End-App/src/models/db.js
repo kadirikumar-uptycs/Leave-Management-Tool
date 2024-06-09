@@ -30,4 +30,15 @@ mongoose.connection.on('disconnected', () => {
     connectDB();
   }
 });
+
+
+mongoose.connection.on('reconnected', () => {
+  console.log('⌛ Reconnected to MongoDB 🔗');
+  reconnectionAttempts = 0;
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('⛔ MongoDB connection error:', err);
+});
+
 module.exports = connectDB;
