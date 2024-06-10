@@ -19,6 +19,7 @@ router.delete('/logout', (req, res, next) => {
 });
 
 router.get('/google', passport.authenticate('google', {
+    prompt: ['select_account'],
     scope: ['profile', 'email']
 }));
 
