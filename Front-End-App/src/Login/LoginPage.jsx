@@ -9,7 +9,7 @@ import './Login.css';
 
 const LoginPage = () => {
     function handleSignIn(){
-        window.open('http://localhost:17291/auth/google', '_self')
+        window.open('/api/auth/google', '_self')
     }
     useEffect(() => {
         document.title = 'Login';

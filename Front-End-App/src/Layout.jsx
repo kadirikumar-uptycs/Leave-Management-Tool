@@ -8,7 +8,6 @@ import Header from './Home/Header';
 import Loading2 from './common/Loading2';
 import ServerError from './common/ServerError';
 import axios from 'axios';
-import config from './config';
 import './App.css';
 
 
@@ -28,7 +27,7 @@ const Layout = () => {
         async function isAuthenticated() {
             setLoading(true);
             try {
-                let response = await axios.get(`${config.SERVER_BASE_ADDRESS}/api`, { withCredentials: true });
+                let response = await axios.get(`/api/api`, { withCredentials: true });
                 dispatch(login(response?.data));
                 setLoading(false);
                 setErrors('');
