@@ -16,7 +16,8 @@
 
 /* Highlight the Holiday cell */
 .fc-daygrid-day-frame:has(.holiday-event) {
-  background-color: #afdefe;
+  background-color: #3649ff;
+  color: #f1f1f1;
 }
 
 /* Center the Event Name */
@@ -48,7 +49,7 @@
   border: none;
 }
 .fc-h-event span {
-  color: #0c0048;
+  color: #f1f1f1;
 }
 .fc-list-event-time {
   color: #ffad18;
