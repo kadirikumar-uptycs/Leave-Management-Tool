@@ -17,19 +17,9 @@ app.use(bodyParser.json({ limit: jsonLimit }));
 app.use(cookieParser());
 
 
-if (process.env.PRODUCTION_ENV === 'true'){
-	// Trust the first proxy in the chain
+// Trust the first proxy in the chain
+if (process.env.PRODUCTION_ENV === 'true') {
 	app.set('trust proxy', 1);
-	// set response headers for Cross Domain Requests
-	res.header("Access-Control-Allow-Credentials", true);
-	res.header("Access-Control-Allow-Origin", origin);
-	res.header("Access-Control-Allow-Headers",
-		"Origin, X-Requested-With, Content-Type, Accept, Authorization, X-HTTP-Method-Override, Set-Cookie, Cookie");
-	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-
-	// set sameSite to none for cross domain requests
-	// cookieInfo.sameSite = 'none';
-	// cookieInfo.secure = true;
 }
 
 
@@ -43,6 +33,18 @@ app.use((req, res, next) => {
 	let message = info(req?.method, " request to route");
 	let route = highlight(req?.path);
 	console.log(message, route, '');
+	if (process.env.PRODUCTION_ENV === 'true') {
+		// set response headers for Cross Domain Requests
+		res.header("Access-Control-Allow-Credentials", true);
+		res.header("Access-Control-Allow-Origin", origin);
+		res.header("Access-Control-Allow-Headers",
+			"Origin, X-Requested-With, Content-Type, Accept, Authorization, X-HTTP-Method-Override, Set-Cookie, Cookie");
+		res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+
+		// set sameSite to none for cross domain requests
+		// cookieInfo.sameSite = 'none';
+		// cookieInfo.secure = true;
+	}
 	next();
 })
 
