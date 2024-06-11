@@ -46,7 +46,7 @@ const Users = () => {
         handleClose();
         try {
             if (isEdited) {
-            openSnackbar('Updating User details...');
+                openSnackbar('Updating User details...');
                 await axios.put(`${config.SERVER_BASE_ADDRESS}/user/${id}`, formData, { withCredentials: true })
                 openSnackbar('User has been modified', 'success');
             } else {
@@ -116,6 +116,7 @@ const Users = () => {
         if (deleteUserId) {
             deleteUser(deleteUserId);
         }
+        // eslint-disable-next-line
     }, [deleteUserId]);
 
     return (

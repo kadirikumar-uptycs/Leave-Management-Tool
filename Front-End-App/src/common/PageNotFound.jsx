@@ -6,6 +6,7 @@ const PageNotFound = () => {
     const openSnackbar = useSnackbar();
     useEffect(() => {
         openSnackbar('Requested Page Not Found', 'warning')
+        // eslint-disable-next-line
     }, [])
     return (
         <div style={{
