@@ -23,6 +23,7 @@ const applyLeave = async (req, res) => {
         sendleaveApplicationNotificationMail(leave);
         return res.status(201).json(leave);
     } catch (err) {
+        console.log("error while applying for a leave", err);
         return res.status(500).json({ error: err });
     }
 };

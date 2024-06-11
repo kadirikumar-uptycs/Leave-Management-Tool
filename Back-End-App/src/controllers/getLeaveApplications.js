@@ -8,6 +8,7 @@ let getLeaveApplications = async (req, res) => {
         let applications = await LeaveApplication.find(filters);
         return res.status(200).send(applications);
     }catch(err){
+        console.log("error while retrieving leave applications: ", err);
         return res.status(500).send(err)
     }
 }

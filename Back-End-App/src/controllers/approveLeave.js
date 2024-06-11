@@ -41,6 +41,7 @@ const approveLeave = async (req, res) => {
             return res.status(403).send({ message: 'Unauthorized: Admin access required' });
         }
     } catch (err) {
+        console.log("error while approving leave application", err);
         return res.status(500).send({ message: err.message });
     }
 };

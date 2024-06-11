@@ -11,6 +11,7 @@ const createUser = async (req, res) => {
     if (err?.code === 11000) {
       return res.status(409).send({ message: 'Email Already Exists' })
     }
+    console.log("error while creating new user", err);
     return res.status(500).json({ message: err });
   }
 };

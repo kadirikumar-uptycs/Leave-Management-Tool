@@ -23,8 +23,7 @@ const dismissNotification = async (req, res) => {
         );
         return res.status(200).send('done!!!');
     } catch (err) {
-        error("Error occurred:");
-        console.log(err);
+        console.log("error while dismissing Notification", err);
         return res.status(500).send({ message: err.message });
     }
 };

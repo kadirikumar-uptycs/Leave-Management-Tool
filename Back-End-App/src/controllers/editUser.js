@@ -13,6 +13,7 @@ const editUser = async (req, res) => {
 		);
 		return res.status(200).send(updatedUserInfo);
 	} catch (err) {
+        console.log("error while editing user", err);
 		res.status(500).send(err);
 	}
 };

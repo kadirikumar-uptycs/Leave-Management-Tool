@@ -6,6 +6,7 @@ const getUser = async (req, res) => {
 		const userInfo = await User.findById(userId);
 		return res.status(200).send(userInfo);
 	} catch (err) {
+        console.log("error while retrieving users ", err);
 		res.status(500).send(err);
 	}
 };
