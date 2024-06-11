@@ -16,6 +16,7 @@ import LeavesFullHistory from './Leaves/LeavesFullHistory';
 import Users from './Users/Users';
 import Admin from './Admin/Admin';
 import Analytics from './Analytics/Analytics';
+import LeaveTracker from './LeaveTracker/LeaveTracker';
 import Layout from './Layout';
 import store from './store';
 
@@ -47,6 +48,11 @@ const router = createBrowserRouter(
 				<Route path="analytics" element={
 					<ErrorBoundary>
 						<Analytics />
+					</ErrorBoundary>
+				} />
+				<Route path="leaveTracker" element={
+					<ErrorBoundary>
+						<LeaveTracker />
 					</ErrorBoundary>
 				} />
 				<Route path='*' element={
