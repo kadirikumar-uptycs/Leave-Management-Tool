@@ -5,7 +5,6 @@ import TableSortAndSelection from '../common/TableSortAndSelection';
 import { formatDate } from '../common/getCurrentDate';
 import Tooltip from '@mui/joy/Tooltip';
 import StatusButton from '../common/StatusButton';
-import Typography from '@mui/joy/Typography';
 import RadioGroup from '../common/RadioGroup';
 import IconButton from '@mui/joy/IconButton';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
