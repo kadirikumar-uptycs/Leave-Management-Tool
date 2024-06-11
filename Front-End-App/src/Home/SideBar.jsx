@@ -154,13 +154,13 @@ const SideBar = () => {
 							pages.map((page, index) => (
 								(page.checkAccess(userRoles))
 								&&
-								(<Link to={page.route} className={`menu-item ${activeItem === index ? "active" : ''}`} style={{ color: 'inherit' }}>
+								(<Link to={page.route} className={`menu-item ${activeItem === index ? "active" : ''}`} style={{ color: 'inherit' }} key={index}>
 									<Stack
 										direction='row'
 										alignItems='center'
 										justifyContent='space-between'
 										spacing={1}
-										paddingLeft={2}
+										paddingLeft={activeItem === index? 1.5:2}
 									>
 										{page.icon}
 										<div className="text">{page.name}</div>
