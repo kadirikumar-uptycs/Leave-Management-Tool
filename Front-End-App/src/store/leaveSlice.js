@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import config from '../config';
 
 const initialState = {
     loading: false,
@@ -9,7 +10,7 @@ const initialState = {
 };
 
 const fetchLeaves = createAsyncThunk('leave/fetchMyLeaves', async () => {
-    const response = await axios.get(`/api/leaveApplications`, { withCredentials: true });
+    const response = await axios.get(`${config.SERVER_BASE_ADDRESS}/leaveApplications`, { withCredentials: true });
     return response.data;
 });
 

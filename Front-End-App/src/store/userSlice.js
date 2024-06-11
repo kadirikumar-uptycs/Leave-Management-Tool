@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import config from '../config';
 
 const initialState = {
     loading: false,
@@ -11,7 +12,7 @@ const initialState = {
 };
 
 const fetchUsers = createAsyncThunk('user/fetchUsers', async () => {
-    const response = await axios.get(`/api/users`, { withCredentials: true });
+    const response = await axios.get(`${config.SERVER_BASE_ADDRESS}/users`, { withCredentials: true });
     return response.data;
 });
 

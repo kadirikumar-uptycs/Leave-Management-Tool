@@ -5,11 +5,12 @@ import Button from '@mui/joy/Button';
 import Lottie from 'lottie-react';
 import LottieFile from '../assets/images/Lottie/robo.json';
 import GoogleIcon from './google.svg';
+import config from '../config';
 import './Login.css';
 
 const LoginPage = () => {
-    function handleSignIn(){
-        window.open('/api/auth/google', '_self')
+    function handleSignIn() {
+        window.open(`${config.SERVER_BASE_ADDRESS}/auth/google`, '_self')
     }
     useEffect(() => {
         document.title = 'Login';

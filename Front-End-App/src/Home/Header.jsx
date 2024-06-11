@@ -15,7 +15,8 @@ const Header = () => {
     const userName = userInfo.name;
     const userProfileImage = userInfo.profileImage;
     const userNotifications = userInfo?.notifications || [];
-    const haveNotifications = userNotifications.length > 0;
+    const notificationsCount = userNotifications.length;
+    const haveNotifications = notificationsCount > 0;
     const toggleDrawer = (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -62,11 +63,13 @@ const Header = () => {
                         alignItems="center"
                         spacing={5}
                     >
-                        <IconButton 
-                        onClick={toggleDrawer}
-                        color={haveNotifications? 'warning': 'neutral'}
+                        <IconButton
+                            onClick={toggleDrawer}
+                            color={haveNotifications ? 'warning' : 'neutral'}
                         >
-                            <NotificationsActiveRoundedIcon color={haveNotifications? 'warning': 'neutral'} />
+                            <Badge invisible={!haveNotifications} color='primary' variant='solid' size='sm'>
+                                <NotificationsActiveRoundedIcon color={haveNotifications ? 'warning' : 'neutral'} />
+                            </Badge>
                         </IconButton>
                         <div
                             title={userName}
@@ -128,8 +131,8 @@ const Header = () => {
 
 
             {/* Notifications Window */}
-            <NotificationSideBar open={openDrawer} toggleDrawer={toggleDrawer}/>
-            
+            <NotificationSideBar open={openDrawer} toggleDrawer={toggleDrawer} />
+
         </>
     );
 }
