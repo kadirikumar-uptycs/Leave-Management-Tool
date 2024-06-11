@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { formatDate, parseDate } from '../common/getCurrentDate';
 import { useSnackbar } from '../hooks/SnackBarProvider';
 import Avatar from '@mui/joy/Avatar';
@@ -25,6 +26,7 @@ const PendingRequestCard = ({ id, name, role, email, profileImage, type, from, f
     let parsedTo = parseDate(to);
     const dispatch = useDispatch();
     const openSnackbar = useSnackbar();
+    const navigate = useNavigate();
 
 
     const approveRequest = async () => {
