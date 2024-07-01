@@ -17,7 +17,7 @@ const applyLeave = async (req, res) => {
             await formatNotification(
                 'Leave Application Received',
                 'info',
-                `${userInfo.name} requested for ${leave.noOfDays} day${leave.noOfDays !== 1 && 's'} of ${leave.type} leave`
+                `${userInfo.name} requested for ${leave.noOfDays} day${leave.noOfDays !== 1?'s':''} of ${leave.type} leave`
             )
         )
         sendleaveApplicationNotificationMail(leave);

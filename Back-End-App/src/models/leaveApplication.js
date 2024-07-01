@@ -45,7 +45,7 @@ const leaveApplicationSchema = new mongoose.Schema({
     fromType: {
         type: String,
         required: true,
-        enum: ["Full", "First Half", "Second Half"]
+        enum: ["Full", "Half"]
     },
     to: {
         type: String,
@@ -54,7 +54,7 @@ const leaveApplicationSchema = new mongoose.Schema({
     toType: {
         type: String,
         required: true,
-        enum: ["Full", "First Half", "Second Half"]
+        enum: ["Full", "Half"]
     },
     noOfDays: {
         type: Number,

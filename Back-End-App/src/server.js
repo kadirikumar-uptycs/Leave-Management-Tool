@@ -24,7 +24,7 @@ if (process.env.PRODUCTION_ENV === 'true') {
 
 
 app.use(cors({
-	origin: ["http://localhost:3000", "http://localhost:17290", "https://cxtools.uptycs.dev"],
+	origin: ["http://localhost:3000", "http://localhost:17290", "http://csteam.uptycs.com", "https://csteam.uptycs.com"],
 	methods: ["GET", "POST", "PUT", "DELETE"],
 	credentials: true,
 }));

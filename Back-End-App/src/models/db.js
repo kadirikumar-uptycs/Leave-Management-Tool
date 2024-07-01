@@ -25,7 +25,7 @@ const connectDB = async () => {
 
 
 mongoose.connection.on('disconnected', () => {
-  console.warn('⚠️ MongoDB disconnected. Attempting to reconnect...');
+  console.warn('⚠️  MongoDB disconnected. Attempting to reconnect...');
   if (reconnectionAttempts < MAX_RECONNECTION_ATTEMPTS) {
     connectDB();
   }
@@ -42,3 +42,40 @@ mongoose.connection.on('error', (err) => {
 });
 
 module.exports = connectDB;
+
+
+// const mongoOptions = {
+// 	useNewUrlParser: true,
+// 	useUnifiedTopology: true,
+// 	autoIndex: true,
+// 	connectTimeoutMS: 10000,
+// 	socketTimeoutMS: 30000,
+// 	auth: {
+// 		username: process.env.MONGO_USERNAME,
+// 		password: process.env.MONGO_PASSWORD
+// 	},
+// };
+
+// let db;
+// async function connectToMongoDB() {
+// 	if (
+// 		db &&
+// 		![mongoose.STATES.connected, mongoose.STATES.connecting, mongoose.STATES.disconnecting].includes(db.readyState)
+// 	) {
+// 		db = undefined;
+// 	}
+
+// 	if (!db) {
+// 		try {
+// 			const mongoURI = `mongodb://${config.MONGODB_URI.join(',')}/admin?authSource=admin&w=1${config.MONGODB_URI.length > 1 ? '&replicaSet=rs0' : ''
+// 				}`;
+// 			db = await mongoose.createConnection(mongoURI, mongoOptions).asPromise();
+// 			log.debug(`Mongoose connection open to ${JSON.stringify(mongoURI)}`);
+// 			log.info(`Mongoose connection state ${db.readyState}`);
+// 		} catch (err) {
+// 			log.error('Error : ', err);
+// 			throw err;
+// 		}
+// 	}
+// 	return db;
+// }

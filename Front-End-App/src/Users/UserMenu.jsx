@@ -23,7 +23,7 @@ export default function UserMenu({ id, name }) {
 
     const onResponse = (opinion) => {
         handleClose();
-        if(opinion){
+        if (opinion) {
             dispatch(deleteUser(id));
         }
     }
@@ -59,7 +59,7 @@ export default function UserMenu({ id, name }) {
             <ConfirmationSnackBar
                 open={showConfirmationMessage}
                 onClose={handleClose}
-                message={`Are you sure to delete ${name}?`}
+                message={<span>Are you sure to delete <strong>{name}</strong>?</span>}
                 onResponse={onResponse}
             />
         </>

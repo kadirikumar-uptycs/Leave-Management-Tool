@@ -76,13 +76,9 @@ const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
             openSnackbar('<TO> should be with in 1 Year from now', 'danger');
         }
         else if (formData.from > formData.to) {
-            openSnackbar("'From' date cannot be later than the 'To' date", 'danger');
+            openSnackbar("<FROM> date cannot be later than the <TO> date", 'danger');
         } else if (formData.from === formData.to && formData.fromType !== formData.toType) {
             openSnackbar("For single day leave, the <DAY TYPE> for 'From' and 'To' should be the same.", 'danger');
-        } else if (formData.from !== formData.to && formData.fromType === 'First Half') {
-            openSnackbar('DISCONTINUED DATE: From Day Type should not be <FIRST HALF>', 'danger');
-        } else if (formData.from !== formData.to && formData.toType === 'Second Half') {
-            openSnackbar('DISCONTINUED DATE: To Day Type should not be <SECOND HALF>', 'danger');
         } else {
             let count = 0;
             let totalDays = differenceInDays(formData.from, formData.to) + 1;
@@ -152,8 +148,8 @@ const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
                                 </FormControl>
                             </div>
                             <div className="group">
-                                <span className="title">Leaves Left</span>
-                                <span className='input'>You have used <strong>{leavesTakenTillNow} Leaves</strong> upto this point</span>
+                                <span className="title">Leaves Taken</span>
+                                <span className='input'>You have used <strong>{leavesTakenTillNow} Leaves</strong></span>
                             </div>
                         </div>
                         <div className="col col-2 group">
@@ -174,7 +170,7 @@ const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
                             <div className="group">
                                 <span className="title">Day Type</span>
                                 <div className="input">
-                                    <RadioGroup type="fromType" first="Full" second="First Half" last="Second Half" handleChangeEvent={handleChangeRadio} />
+                                    <RadioGroup type="fromType" first="Full" second="Half" handleChangeEvent={handleChangeRadio} />
                                 </div>
                             </div>
                         </div>
@@ -190,7 +186,7 @@ const LeaveRequestModal = ({ open, onClose, onLeaveFormSubmit }) => {
                             <div className="group">
                                 <span className="title">Day Type</span>
                                 <div className="input">
-                                    <RadioGroup type="toType" first="Full" second="First Half" last="Second Half" handleChangeEvent={handleChangeRadio} />
+                                    <RadioGroup type="toType" first="Full" second="Half" handleChangeEvent={handleChangeRadio} />
                                 </div>
                             </div>
                         </div>

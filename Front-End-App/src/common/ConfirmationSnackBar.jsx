@@ -9,7 +9,7 @@ export default function ConfirmationSnackBar({ open, onClose, message, onRespons
         <React.Fragment>
             <Snackbar
                 variant="soft"
-                color="danger"
+                color="primary"
                 size="lg"
                 invertedColors
                 open={open}
